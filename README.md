@@ -55,19 +55,12 @@ E.g.
 }}
 ```
 
-or
+Those options are then flattened onto the target component and observed as normal attributes on the component.
+So if `fooComponent` was `my-button` and `fooOptions` was { biz: 'baz' } the above would be the equivalent of:
 
 ```
-{{known-component
-  header=(component headerComponent
-    options=headerOptions
-  )
-  body=(component bodyComponent
-    options=bodyOptions
-  )
-  footer=(component footerComponent
-    options=footerOptions
-  )
+{{my-button
+  biz='baz'
 }}
 ```
 
@@ -100,15 +93,30 @@ Template instance
 }}
 ```
 
-* The spread function operates based on the didReceiveAttrs lifecycle hook, so be sure to call `this._super(...arguments)` if
+* The spread function operates based on the init lifecycle hook, so be sure to call `this._super(...arguments)` if
   your component also uses that hook
 * Spread only acts on an object hash (the `hash` helper can be used)
 * `options` is the default property that will be spread
-* If you need to customize the target property you can set the target using the `spread` property, i.e.
+* If you need to customize the target property you can set the target using the `spreadOptions` property, i.e.
 
 ```
 {{component-foo
   baz=bar
-  spread='baz'
+  spreadOptions=(hash
+    property='baz'
+  )
+}}
+```
+
+* If you need completely dynamic properties (added to the hash after instantiation) this can be accomplished
+  by providing a context and property to observe for property additions
+
+```
+{{component-foo
+  options=foo
+  spreadOptions=(hash
+    context=this
+    source='foo'
+  )
 }}
 ```
