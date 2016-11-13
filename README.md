@@ -1,5 +1,7 @@
 # Ember-spread
 
+Dynamic options for dynamic components
+
 A mixin that can be used to [`spread`](https://sebmarkbage.github.io/ecmascript-rest-spread/) a property object 
 against the top level of a component.  Spread allows a component helper to be used without knowing the properties 
 the target component will require.
