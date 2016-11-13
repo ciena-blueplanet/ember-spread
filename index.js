@@ -1,6 +1,6 @@
 /* jshint node: true */
-'use strict';
+'use strict'
 
 module.exports = {
   name: 'ember-spread'
-};
+}

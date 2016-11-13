@@ -1,27 +1,71 @@
 # Ember-spread
 
-This README outlines the details of collaborating on this Ember addon.
+A mixin that can be used to [`spread`](https://sebmarkbage.github.io/ecmascript-rest-spread/) a property object 
+against the top level of a component.  Spread allows a component helper to be used without knowing the properties 
+the target component will require.
+
+E.g.
+
+```
+{{component fooComponent
+  options=fooOptions
+}}
+```
+
+or
+
+```
+{{known-component
+  header=(component headerComponent
+    options=headerOptions
+  )
+  body=(component bodyComponent
+    options=bodyOptions
+  )
+  footer=(component footerComponent
+    options=footerOptions
+  )
+}}
+```
+
+Data-driven scenarios will find this particularly useful, since both the component and properties can be retrieved
+from an external API
 
 ## Installation
 
-* `git clone <repository-url>` this repository
-* `cd ember-spread`
-* `npm install`
-* `bower install`
+* `ember install ember-spread`
 
-## Running
+## Demo
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+http://ciena-blueplanet.github.io/ember-spread/
 
-## Running Tests
+## Usage
 
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+Component
+```
+import SpreadMixin from 'ember-spread'
 
-## Building
+export default Ember.Component.extend(SpreadMixin, {
+  ...
+})
+```
 
-* `ember build`
+Template instance
+```
+{{component-foo
+  options=bar
+}}
+```
 
-For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+* The spread function operates based on the didReceiveAttrs lifecycle hook, so be sure to call `this._super(...arguments)` if
+  your component also uses that hook
+* Spread only acts on an object hash (the `hash` helper can be used)
+* `options` is the default property that will be spread
+* If you need to customize the target property you can set the target using the `spread` property, i.e.
+
+```
+{{component-foo
+  baz=bar
+  spread='baz'
+}}
+```
