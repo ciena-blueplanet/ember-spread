@@ -1,38 +1,48 @@
----
 language: node_js
-node_js:
-  - "4"
-
 sudo: false
-
-cache:
-  directories:
-    - node_modules
-
-env:
-  - EMBER_TRY_SCENARIO=default
-  - EMBER_TRY_SCENARIO=ember-1.13
-  - EMBER_TRY_SCENARIO=ember-release
-  - EMBER_TRY_SCENARIO=ember-beta
-  - EMBER_TRY_SCENARIO=ember-canary
-
-matrix:
-  fast_finish: true
-  allow_failures:
-    - env: EMBER_TRY_SCENARIO=ember-canary
-
+node_js:
+- '5.3'
+branches:
+  except:
+  - /^v[0-9\.]+/
 before_install:
-  - npm config set spin false
-  - npm install -g bower
-  - bower --version
-  - npm install phantomjs-prebuilt
-  - node_modules/phantomjs-prebuilt/bin/phantomjs --version
-
+- npm install -g coveralls pr-bumper
+- pr-bumper check
+before_script:
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3 # give xvfb some time to start
 install:
-  - npm install
-  - bower install
-
-script:
-  # Usually, it's ok to finish the test scenario without reverting
-  #  to the addon's original dependency state, skipping "cleanup".
-  - ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
+- npm install
+- bower install
+after_success:
+- sed -i -- 's/SF:ember-spread\/\(.*\)/SF:addon\/\1.js/' coverage/lcov.info && rm
+  -f coverage/lcov.info--
+- cat coverage/lcov.info | coveralls
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+env:
+  matrix:
+  - CXX=g++-4.8
+  global:
+    secure: k7IF+9paXh8MyeD7VQrBkh9K2rYUuMPY4QkZLzIPPhK7sn/ErMhhanE2xn4e9NrMCYilsDaEWojhQ/vAFtXvMIMe42AV0SkvHq2Hy33FsVtXpuXQUFz+lfuSpzmxAe+E5hiBGEl7GEpz32km8n09IFkMzo4UfahfpSCWexdIXA4ejBP7H4Bn6aB3D4YikP1ax1ATjwOgIP/VzM+W6hxe/cfPikooG/TP8vmunZi08FNqyTZIj3+GUk0SBi64a6zLENKvpd2zmIHWdbLrwDUGyzf0iTXTrdwZJBlSh2uI5bCIb1TWmC34KPTaSrZILb73WNxxlfbOWlbpL5sv7LPaqT/iorCEJfIRqrSc5L2F6c2VCZFrFitHn1wyAWfHmafymPSB+1qh5ScylvEu9AD3cbAsRT6pp4WVD4Hm1CCbqDeYnI4iMmjSoZGwvBFFU4KJqtkaitEmEz/qtwmmaG9g+n88Nt3ONL4JXuBah6ufh1UC3nNBLlZT+BahRa3W2KkKGi6V0iJm1RixuoAvktoi/TTS6CXCFWUyUJRQay5K9hVX+3B472uGjKISMRcfq3PPaZ8Nu4MwUnVndWWzpTgjvjg53Yncl7zuHGCcmEF2tW1ar6W6kSkKqsd+wbhFzK8BxePEtfP+Le6hM5N1QAyNJ+S6nQlBjim/dR2LYDkd8IY=
+before_deploy:
+- pr-bumper bump
+deploy:
+  provider: npm
+  email: npm.ciena@gmail.com
+  skip_cleanup: true
+  api_key:
+    secure: T6S4vhQB7HAx/4FSxpam3RKgeTLHaH2ODP2OGiP9Di7wjF8MYIUMWOS3Iks5GoXM1F8PU6lX0pWstkL2wvlCB+iMVxJ2x4VAXOtrgCCLrf+CuruAzxzy4uOTDlaBRZn+LKo3uGhD/xzXIXnYp3y/N656vrtfQADQroMigAvNsMD3RSENPEn5juMlJrEMgUglQhzl8GrSaen1tNdqMQjpn0FGfE5jJzrdHTOFGx2HHLG/MH4c1QYhoSCs64eA/GB4/IlVjX7P4vDeuLoGj+TQfxfJy54HVN2EA0gsuFhqaDvkZ5AGeaMQbNkfdyY7/Bc01oG3goCv0brobG3/aT+VRf0gGH67dCLKmj93qrB9qv9D1ZTdPYJJQtVeu2UWQNXb+SUk9YSLjRn/S3+2/qJUH71wSQPtnUzi0Av/Q8OgCTGJdDonlx87FBV+MnnFA2Xg+0g8OkTg9dXY0dXcmvnrxsD0rB1O3ZzVEtwCMJrIr4jYgg3ynQosgzNsIknDhrmxrTW3ASUKhru0UBhMvkYciwPTgODoctFo2cxPZ40j97EzTYpCqm7EpOp+myl1GXToLs6mALYSP9aWREWHVa1dN9/Hr9bICT9wTr0IXtc8BrfYGjPD2imnHBQTQH0dj/mD77oBzZzqKIOtJ6dpccV+04MXUs42V8Owhw7XPYHUAmQ=
+  on:
+    branch: master
+    tags: false
+after_deploy:
+- .travis/publish-gh-pages.sh
+notifications:
+  slack:
+    secure: PZ8UABgfaXG/n0G6Fo4700dujKaAVDROjVcd1+EJoxvICwOgWafdaYOV1+PX9dxF0ws8H5ex3fC+1kaYRl6//hKvLazKikPvFraVz6KbSUc5Bg9xJ4QiuqfwOr4iSY02pheZjnRoye90G5pxygjlQjypTJcSUij6RCUEjVUCLdCU8ZVgAfI6U9oXu1+fU2HX9Ji0KNEaXQBJ/VaBL2dl+o3gJ2M+O8eZWr0mb7fyk0eY5VvAEK6QAw0JWihEETaTigpjbKcrKeBELlcSMtQIuqOi/cNF4XG5SUdHUFGNdtfE5m/dNea8ad8lEE7kerSCFKjIFIETwfwQVoYqZ/1wL7avtM/Rb9c2hPxyn/2H4JdKzH2wlTAFTUqEOqMWjvr/SbAXr/2Go2vSoWJ9B5526uFf3laoPK7PohJh6t3i3Xv5i2ApH5/fUMEdNfV09o1N432xUXaqvTL2Y1NnwWAzXiOxwAE4BC9Hnzh3Qbn1u70EtlNtgfk7bznEfRjzwdLIOniQtw+94UB3xQ32yghKhBPX0f8lIwxPJb6JGzThIrrO8MR0LaSNPqFmMOqcVEhrKXSJd4qJMh1U2Lb/uKxRpQY7sGUEwsIGWZNs3+usa15DD/kyTg/Xn/kfZxm023i6c8h6hIrfMOo/MKra+f1Lpef6Mpr/qeTBqSZC1qb0PCU=

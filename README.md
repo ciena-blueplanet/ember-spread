@@ -1,6 +1,47 @@
-# Ember-spread
+[ci-img]: https://img.shields.io/travis/ciena-blueplanet/ember-spread.svg "Travis CI Build Status"
+[ci-url]: https://travis-ci.org/ciena-blueplanet/ember-spread
+
+[cov-img]: https://img.shields.io/coveralls/ciena-blueplanet/ember-spread.svg "Coveralls Code Coverage"
+[cov-url]: https://coveralls.io/github/ciena-blueplanet/ember-spread
+
+[npm-img]: https://img.shields.io/npm/v/ember-spread.svg "NPM Version"
+[npm-url]: https://www.npmjs.com/package/ember-spread
+
+[ember-observer-badge]: http://emberobserver.com/badges/ember-spread.svg "Ember Observer score"
+[ember-observer-badge-url]: http://emberobserver.com/addons/ember-spread
+
+[ember-img]: https://img.shields.io/badge/ember-2.3+-orange.svg "Ember 2.3+"
+
+[bithound-img]: https://www.bithound.io/github/ciena-blueplanet/ember-spread/badges/score.svg "bitHound"
+[bithound-url]: https://www.bithound.io/github/ciena-blueplanet/ember-spread
+
+# ember-spread
 
 Dynamic options for dynamic components
+
+###### Dependencies
+
+![Ember][ember-img]
+[![NPM][npm-img]][npm-url]
+
+###### Health
+
+[![Travis][ci-img]][ci-url]
+[![Coveralls][cov-img]][cov-url]
+
+###### Security
+
+[![bitHound][bithound-img]][bithound-url]
+
+###### Ember Observer score
+[![EmberObserver][ember-observer-badge]][ember-observer-badge-url]
+
+## Installation
+```
+ember install ember-spread
+```
+
+## Details
 
 A mixin that can be used to [`spread`](https://sebmarkbage.github.io/ecmascript-rest-spread/) a property object 
 against the top level of a component.  Spread allows a component helper to be used without knowing the properties 
