@@ -1,3 +1,7 @@
+# 0.0.5
+
+* Adding a repo, description and author to the package.json
+
 # 0.0.4
 
 * Updates to travis/dummy env to try to get the demo working
