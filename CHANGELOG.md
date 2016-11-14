@@ -1,3 +1,7 @@
+# 0.0.3
+
+* Changed the baseURL for the demo
+
 # 0.0.2
 
 * Adding travis files for demo and coverage publishing
