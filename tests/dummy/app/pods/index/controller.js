@@ -12,7 +12,7 @@ export default Ember.Controller.extend({
   wereShape: 'normal-dot',
   wereOptions: Ember.Object.create({
     size: 40,
-    speak: 'This is getting ridiculous...'
+    speak: 'Ok, this is getting ridiculous...'
   }),
   // END-SNIPPET
 
@@ -28,7 +28,7 @@ export default Ember.Controller.extend({
       if (this.get('wereOptions.color') === 'red') {
         this.set('wereOptions.size', 40)
         this.set('wereOptions.color', 'black')
-        this.set('wereOptions.speak', 'This is getting ridiculous...')
+        this.set('wereOptions.speak', 'Ok, this is getting ridiculous...')
       } else {
         this.set('wereOptions.size', 60)
         this.set('wereOptions.color', 'red')
