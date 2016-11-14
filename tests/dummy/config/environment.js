@@ -40,7 +40,8 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.baseURL = '/ember-spread'
+    ENV.isDemo = true
   }
 
   return ENV
