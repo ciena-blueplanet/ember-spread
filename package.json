@@ -1,7 +1,7 @@
 {
   "name": "ember-spread",
   "version": "0.0.4",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Dynamic options for dynamic components",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -12,11 +12,11 @@
     "start": "ember server",
     "test": "npm run lint && ember test"
   },
-  "repository": "",
+  "repository": "git@github.com:ciena-blueplanet/ember-spread.git",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 6.0.0"
   },
-  "author": "",
+  "author": "Steven Glanzer (https://github.com/sglanzer)",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
