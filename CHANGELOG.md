@@ -1,3 +1,7 @@
+# 0.0.4
+
+* Updates to travis/dummy env to try to get the demo working
+
 # 0.0.3
 
 * Changed the baseURL for the demo
