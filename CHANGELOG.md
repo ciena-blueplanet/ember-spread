@@ -1,3 +1,7 @@
+# 0.0.6
+
+* `till` -> `to`
+
 # 0.0.5
 
 * Adding a repo, description and author to the package.json
