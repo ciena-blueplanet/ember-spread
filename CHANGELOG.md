@@ -1,3 +1,7 @@
+# 0.0.8
+
+* Demo advanced options (action binding, computed property chains)
+
 # 0.0.7
 
 * `till` -> `to`
