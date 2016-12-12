@@ -12,9 +12,18 @@
   font-family: 'Creepster', cursive;
 }
 
+.verbalization {
+  display: flex;
+  flex-direction: column;
+}
+
 .speaking {
   padding-left: 8px;
   font-family: 'Indie Flower', cursive;
+}
+
+.and-so-on {
+  margin-top: 8px;
 }
 
 .red {
