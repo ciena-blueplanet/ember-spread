@@ -16,7 +16,7 @@
         size=5
         speak='Punctuation, huzzah!'
       }}
-      {{! END-SNIPPET normal }}
+      {{! END-SNIPPET }}
     </div>
   </div>
 
@@ -62,7 +62,7 @@
     <div class='demo'>
       {{! BEGIN-SNIPPET dot-options }}
       {{normal-dot options=dotOptions}}
-      {{! END-SNIPPET dot-options }}
+      {{! END-SNIPPET }}
     </div>
   </div>
 
@@ -85,7 +85,7 @@
           source='wereOptions'
         )
       }}
-      {{! END-SNIPPET were-dynamic }}
+      {{! END-SNIPPET }}
     </div>
   </div>
 
@@ -97,6 +97,25 @@
   <div class='example'>
     <div class='code'>
       {{code-snippet name='transform.js'}}
+    </div>
+  </div>
+
+  <p>
+    The now-triangle, unable to comprehend the transformation, was reduced to a near beast-like state
+  </p>
+
+  <div class='example'>
+    <div class='code'>
+      {{code-snippet name='advanced-options.hbs'}}
+      {{code-snippet name='advanced-options.js'}}
+      {{code-snippet name='more-noises.js'}}
+    </div>
+    <div class='demo'>
+      {{! BEGIN-SNIPPET advanced-options }}
+      {{were-triangle
+        options=advancedOptions
+      }}
+      {{! END-SNIPPET }}
     </div>
   </div>
 
