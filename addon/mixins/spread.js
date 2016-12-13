@@ -108,9 +108,9 @@ export default Mixin.create({
    * @param {object} spreadableHash - the hash to spread
    */
   _defineSpreadProperties (spreadProperty, spreadableHash) {
-    assert(`${spreadProperty} requires an Ember object or primitive object`,
-      typeOf(spreadableHash) === 'instance' ||
-      typeOf(spreadableHash) === 'object'
+    assert(
+      `${spreadProperty} requires an Ember object or primitive object`,
+      ['instance', 'object'].includes(typeOf(spreadableHash))
     )
 
     keys(spreadableHash).forEach((key) => {

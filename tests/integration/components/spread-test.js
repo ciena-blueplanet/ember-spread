@@ -9,30 +9,31 @@ import SpreadMixin from 'ember-spread'
 
 import {integration} from 'dummy/tests/helpers/ember-test-utils/describe-component'
 
+const SpreadComponent = Ember.Component.extend(SpreadMixin, {
+  // == Properties ============================================================
+
+  hook: 'spreadTest',
+  layout: hbs`
+    <div data-test={{hook 'spreadProperty'}}>
+      {{property}}
+    </div>
+  `,
+
+  // == Actions ===============================================================
+
+  click () {
+    // Note: A get is not used in this case; onClick is a function on the
+    // local component, not a computed property
+    this.onClick()
+  }
+})
+
 describeComponent(...integration('spread'), function () {
   let handler
 
   beforeEach(function () {
     initializeHook()
-
-    this.registry.register('component:spread-test', Ember.Component.extend(SpreadMixin, {
-
-      // == Properties ============================================================
-
-      hook: 'spread-test',
-      layout: hbs`
-        <div data-test={{hook 'spread-property'}}>
-          {{property}}
-        </div>
-      `,
-
-      // == Actions ===============================================================
-
-      click () {
-        this.onClick()
-      }
-    }))
-
+    this.registry.register('component:spread-test', SpreadComponent)
     handler = sinon.spy()
   })
 
@@ -53,19 +54,24 @@ describeComponent(...integration('spread'), function () {
     })
 
     it('should bind spread properties as local properties', function () {
-      expect($hook('spread-property').text().trim()).to.equal('Neat')
+      expect($hook('spreadProperty').text().trim()).to.equal('Neat')
     })
 
     it('should bind spread functions as local functions', function () {
-      $hook('spread-test').click()
-
+      // Note: In the spreadTest component above the onClick function
+      // is called directly without retrieving the function using `get`
+      $hook('spreadTest').click()
       expect(handler).to.have.callCount(1)
     })
 
-    it('should update local properties when the source property changes', function () {
-      this.set('options.property', 'Woah')
+    describe('and a source property changes', function () {
+      beforeEach(function () {
+        this.set('options.property', 'Woah')
+      })
 
-      expect($hook('spread-property').text().trim()).to.equal('Woah')
+      it('should update the local property', function () {
+        expect($hook('spreadProperty').text().trim()).to.equal('Woah')
+      })
     })
   })
 
@@ -89,19 +95,24 @@ describeComponent(...integration('spread'), function () {
     })
 
     it('should bind spread properties as local properties', function () {
-      expect($hook('spread-property').text().trim()).to.equal('Neat')
+      expect($hook('spreadProperty').text().trim()).to.equal('Neat')
     })
 
     it('should bind spread functions as local functions', function () {
-      $hook('spread-test').click()
-
+      // Note: In the spreadTest component above the onClick function
+      // is called directly without retrieving the function using `get`
+      $hook('spreadTest').click()
       expect(handler).to.have.callCount(1)
     })
 
-    it('should update local properties when the source property changes', function () {
-      this.set('options.property', 'Woah')
+    describe('and a source property changes', function () {
+      beforeEach(function () {
+        this.set('options.property', 'Woah')
+      })
 
-      expect($hook('spread-property').text().trim()).to.equal('Woah')
+      it('should update the local property', function () {
+        expect($hook('spreadProperty').text().trim()).to.equal('Woah')
+      })
     })
   })
 
@@ -123,28 +134,37 @@ describeComponent(...integration('spread'), function () {
         `)
       })
 
-      it('should bind new source properties as local properties', function () {
-        this.set('options.property', 'Crazy')
+      describe('and a source property is added', function () {
+        beforeEach(function () {
+          this.set('options.property', 'Crazy')
+        })
 
-        expect($hook('spread-property').text().trim()).to.equal('Crazy')
+        it('should bind new source properties as local properties', function () {
+          expect($hook('spreadProperty').text().trim()).to.equal('Crazy')
+        })
+
+        describe('and a source property changes', function () {
+          beforeEach(function () {
+            this.set('options.property', 'Booya')
+          })
+
+          it('should update the local property', function () {
+            expect($hook('spreadProperty').text().trim()).to.equal('Booya')
+          })
+        })
       })
 
-      it('should bind new source functions as local functions', function () {
-        this.set('options.onClick', handler)
+      describe('and a source function is added', function () {
+        beforeEach(function () {
+          this.set('options.onClick', handler)
+        })
 
-        $hook('spread-test').click()
-
-        expect(handler).to.have.callCount(1)
-      })
-
-      it('should update new local properties when the source property changes', function () {
-        this.set('options.property', 'Crazy')
-
-        expect($hook('spread-property').text().trim()).to.equal('Crazy')
-
-        this.set('options.property', 'Booya')
-
-        expect($hook('spread-property').text().trim()).to.equal('Booya')
+        it('should bind new source functions as local functions', function () {
+          // Note: In the spreadTest component above the onClick function
+          // is called directly without retrieving the function using `get`
+          $hook('spreadTest').click()
+          expect(handler).to.have.callCount(1)
+        })
       })
     })
 
@@ -166,28 +186,37 @@ describeComponent(...integration('spread'), function () {
         `)
       })
 
-      it('should bind new source properties as local properties', function () {
-        this.set('options.property', 'Crazy')
+      describe('and a source property is added', function () {
+        beforeEach(function () {
+          this.set('options.property', 'Crazy')
+        })
 
-        expect($hook('spread-property').text().trim()).to.equal('Crazy')
+        it('should bind new source properties as local properties', function () {
+          expect($hook('spreadProperty').text().trim()).to.equal('Crazy')
+        })
+
+        describe('and a source property changes', function () {
+          beforeEach(function () {
+            this.set('options.property', 'Booya')
+          })
+
+          it('should update the local property', function () {
+            expect($hook('spreadProperty').text().trim()).to.equal('Booya')
+          })
+        })
       })
 
-      it('should bind new source functions as local functions', function () {
-        this.set('options.onClick', handler)
+      describe('and a source function is added', function () {
+        beforeEach(function () {
+          this.set('options.onClick', handler)
+        })
 
-        $hook('spread-test').click()
-
-        expect(handler).to.have.callCount(1)
-      })
-
-      it('should update new local properties when the source property changes', function () {
-        this.set('options.property', 'Crazy')
-
-        expect($hook('spread-property').text().trim()).to.equal('Crazy')
-
-        this.set('options.property', 'Booya')
-
-        expect($hook('spread-property').text().trim()).to.equal('Booya')
+        it('should bind new source functions as local functions', function () {
+          // Note: In the spreadTest component above the onClick function
+          // is called directly without retrieving the function using `get`
+          $hook('spreadTest').click()
+          expect(handler).to.have.callCount(1)
+        })
       })
     })
 
@@ -224,11 +253,9 @@ describeComponent(...integration('spread'), function () {
       })
 
       it('should clean up the source property listener', function () {
-        expect(this.get('options._spreadListeners').length).to.equal(2)
-
+        expect(this.get('options._spreadListeners')).to.have.lengthOf(2)
         this.set('condition', false)
-
-        expect(this.get('options._spreadListeners').length).to.equal(1)
+        expect(this.get('options._spreadListeners')).to.have.lengthOf(1)
       })
     })
   })
