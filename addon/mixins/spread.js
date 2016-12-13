@@ -183,7 +183,7 @@ export default Mixin.create({
 
     const spreadListeners = get(sourceObject, `${sourceProperty}._spreadListeners`)
 
-      // Remove this listener from the source object property
+    // Remove this listener from the source object property
     if (isArray(spreadListeners)) {
       spreadListeners.splice(spreadListeners.findIndex(this._isLocalListener), 1)
     }
