@@ -6,7 +6,6 @@ import hbs from 'htmlbars-inline-precompile'
 import {beforeEach, describe} from 'mocha'
 import sinon from 'sinon'
 import SpreadMixin from 'ember-spread'
-import wait from 'ember-test-helpers/wait'
 
 import {integration} from 'dummy/tests/helpers/ember-test-utils/describe-component'
 
