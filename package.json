@@ -1,6 +1,6 @@
 {
   "name": "ember-spread",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Dynamic options for dynamic components",
   "directories": {
     "doc": "doc",
