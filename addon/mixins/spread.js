@@ -5,14 +5,14 @@
  */
 
 import Ember from 'ember'
-const { assert, computed, defineProperty, get, isNone, isPresent, typeOf } = Ember
+const { assert, computed, defineProperty, get, isArray, isNone, typeOf, Mixin } = Ember
 const { keys } = Object
 import { PropTypes } from 'ember-prop-types'
 
 // Constants
 const SPREAD_PROPERTY = 'options'
 
-export default Ember.Mixin.create({
+export default Mixin.create({
 
   // == Dependencies ==========================================================
 
@@ -71,7 +71,27 @@ export default Ember.Mixin.create({
     // Define the setUnknownProperty function on the source property so that we can
     // monitor for the addition of new properties and spread them onto the local object
     defineProperty(get(sourceObject, sourceProperty), 'setUnknownProperty', undefined,
-      this._setUnknownProperty
+      function (key, value) {
+        // Set the property to the given value (the expected normal behavior)
+        this[key] = value
+
+        // For each listening target object (registered via spread options)
+        // spread the new property onto the target object
+        this._spreadListeners.forEach(listener => {
+          if (typeOf(value) === 'function') {
+            listener.targetObject.set(key, value)
+          } else {
+            defineProperty(listener.targetObject, key,
+              computed.readOnly(`${listener.targetProperty}.${key}`)
+            )
+          }
+        })
+
+        // Notify all downstream listeners that the property has changed.
+        // This triggers the first observation of the property for the newly
+        // defined computed property on the target object(s)
+        sourceObject.get(sourceProperty).notifyPropertyChange(key)
+      }
     )
   },
 
@@ -125,36 +145,6 @@ export default Ember.Mixin.create({
     return listener.targetObject === this
   },
 
-  /**
-   * When a property is added to a source (object hash) property this function
-   * binds that property in a readOnly computed property chain to all registered
-   * listener objects (spread targets) and notifies all downstream listeners
-   * of the property change (addition)
-   *
-   * @param {object} sourceObject - the source object for the spread
-   * @param {string} sourceProperty - the source property for the spread
-   * @returns {function} - a closure over the source object and source property
-   */
-  _setUnknownProperty (sourceObject, sourceProperty) {
-    return function (key, value) {
-      // Set the property to the given value (the expected normal behavior)
-      this[key] = value
-
-      // For each listening target object (registered via spread options)
-      // spread the new property onto the target object
-      this._spreadListeners.forEach(listener => {
-        defineProperty(listener.targetObject, key,
-          computed.readOnly(`${listener.targetProperty}.${key}`)
-        )
-      })
-
-      // Notify all downstream listeners that the property has changed.
-      // This triggers the first observation of the property for the newly
-      // defined computed property on the target object(s)
-      sourceObject.get(sourceProperty).notifyPropertyChange(key)
-    }
-  },
-
   // == Ember Lifecycle Hooks =================================================
 
   init () {
@@ -184,12 +174,18 @@ export default Ember.Mixin.create({
   },
 
   willDestroy () {
+    this._super(...arguments)
+
     const {sourceObject, sourceProperty} = this._getSourceContext()
-    if (isPresent(sourceObject) && isPresent(sourceProperty)) {
-      const spreadListeners = get(sourceObject, `${sourceProperty}._spreadListeners`)
+    if (isNone(sourceObject) || isNone(sourceProperty)) {
+      return
+    }
+
+    const spreadListeners = get(sourceObject, `${sourceProperty}._spreadListeners`)
 
       // Remove this listener from the source object property
-      spreadListeners.splice(spreadListeners.findIndex(this._isLocalListener()), 1)
+    if (isArray(spreadListeners)) {
+      spreadListeners.splice(spreadListeners.findIndex(this._isLocalListener), 1)
     }
   }
 
