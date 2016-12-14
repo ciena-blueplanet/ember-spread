@@ -109,14 +109,16 @@ Template instance
 ```
 
 * If you need completely dynamic properties (added to the hash after instantiation) this can be accomplished
-  by providing a context and property to observe for property additions
+  by providing a source object and property to observe for property additions
 
 ```
 {{component-foo
   options=foo
   spreadOptions=(hash
-    context=this
-    source='foo'
+    source=(hash
+      object=this
+      property='foo'
+    )
   )
 }}
 ```

@@ -27,7 +27,8 @@ export default Ember.Controller.extend({
   }),
   advancedOptions: Ember.computed('verbalizedNoises', function () {
     return {
-      size: 40,
+      color: 'red',
+      size: 60,
       speak: this.get('verbalizedNoises'),
       onClick: this.actions.moreNoises.bind(this)
     }

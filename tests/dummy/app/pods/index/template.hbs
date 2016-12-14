@@ -81,8 +81,10 @@
       {{component wereShape
         options=wereOptions
         spreadOptions=(hash
-          context=this
-          source='wereOptions'
+          source=(hash
+            object=this
+            property='wereOptions'
+          )
         )
       }}
       {{! END-SNIPPET }}
