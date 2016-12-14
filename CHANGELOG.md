@@ -1,3 +1,8 @@
+# 1.0.0
+
+* Dynamic spread is now driven via `spreadOptions=(hash source=(hash object=... property=...))`
+* Added tests
+
 # 0.0.8
 
 * Demo advanced options (action binding, computed property chains)
