@@ -44,7 +44,6 @@
     "ember-prop-types": "3.2.0",
     "ember-resolver": "^2.0.3",
     "ember-sinon": "0.6.0",
-    "ember-test-utils": "1.2.2",
     "eslint": "^3.8.1",
     "eslint-config-frost-standard": "^4.0.0",
     "loader.js": "^4.0.1"
