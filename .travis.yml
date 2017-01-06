@@ -1,3 +1,4 @@
+---
 sudo: required
 dist: trusty
 language: node_js
@@ -9,7 +10,10 @@ branches:
   - /^v[0-9\.]+/
 before_install:
 - npm config set spin false
-- npm install -g bower coveralls pr-bumper
+- npm install -g bower coveralls pr-bumper phantomjs-prebuilt
+- bower --version
+- npm install phantomjs-prebuilt
+- phantomjs --version
 - pr-bumper check
 before_script:
 - "export DISPLAY=:99.0"
@@ -20,8 +24,10 @@ before_script:
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
 script:
-- npm run lint
-- ember try:one $EMBER_TRY_SCENARIO
+  - npm run lint
+  # Usually, it's ok to finish the test scenario without reverting
+  #  to the addon's original dependency state, skipping "cleanup".
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
 install:
 - npm install
 - bower install
@@ -33,9 +39,17 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
+
+cache:
+  directories:
+    - $HOME/.npm
+    - $HOME/.cache # includes bowers cache
+
 env:
   matrix:
-  - EMBER_TRY_SCENARIO=default
+  # we recommend testing LTS's and latest stable release (bonus points to beta/canary)
+  - EMBER_TRY_SCENARIO=ember-lts-2.4
+  - EMBER_TRY_SCENARIO=ember-lts-2.8
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta
   - EMBER_TRY_SCENARIO=ember-canary
@@ -45,7 +59,6 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
-  - env: EMBER_TRY_SCENARIO=ember-beta
   - env: EMBER_TRY_SCENARIO=ember-canary
 before_deploy:
 - pr-bumper bump
