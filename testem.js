@@ -1,3 +1,4 @@
+/* jshint node:true*/
 module.exports = {
   'framework': 'mocha',
   'test_page': 'tests/index.html?hidepassed',
@@ -6,6 +7,7 @@ module.exports = {
     'Chrome'
   ],
   'launch_in_dev': [
+    'PhantomJS',
     'Chrome'
   ]
 }
