@@ -1,30 +1,25 @@
+/* jshint node:true*/
 module.exports = {
   scenarios: [
     {
-      name: 'default',
-      bower: {
-        dependencies: { }
-      }
-    },
-    {
-      name: 'ember-2-0',
+      name: 'ember-lts-2.4',
       bower: {
         dependencies: {
-          'ember': '~2.0.0'
+          'ember': 'components/ember#lts-2-4'
         },
         resolutions: {
-          'ember': '~2.0.0'
+          'ember': 'lts-2-4'
         }
       }
     },
     {
-      name: 'ember-2-8',
+      name: 'ember-lts-2.8',
       bower: {
         dependencies: {
-          'ember': '~2.8.0'
+          'ember': 'components/ember#lts-2-8'
         },
         resolutions: {
-          'ember': '~2.8.0'
+          'ember': 'lts-2-8'
         }
       }
     },
