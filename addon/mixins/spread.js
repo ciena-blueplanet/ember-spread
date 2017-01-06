@@ -5,7 +5,7 @@
  */
 
 import Ember from 'ember'
-const { assert, computed, defineProperty, get, isArray, isNone, typeOf, Mixin } = Ember
+const { assert, computed, defineProperty, get, isArray, isNone, typeOf, A, Mixin } = Ember
 const { keys } = Object
 import { PropTypes } from 'ember-prop-types'
 
@@ -108,9 +108,11 @@ export default Mixin.create({
    * @param {object} spreadableHash - the hash to spread
    */
   _defineSpreadProperties (spreadProperty, spreadableHash) {
+    const supportedSpreadableTypes = A(['instance', 'object'])
+
     assert(
       `${spreadProperty} requires an Ember object or primitive object`,
-      ['instance', 'object'].includes(typeOf(spreadableHash))
+      supportedSpreadableTypes.includes(typeOf(spreadableHash))
     )
 
     keys(spreadableHash).forEach((key) => {
@@ -135,14 +137,6 @@ export default Mixin.create({
       sourceObject: this.get('spreadOptions.source.object'),
       sourceProperty: this.get('spreadOptions.source.property')
     }
-  },
-
-  /**
-   * @param {object} listener - a listener object for setUnknownProperty
-   * @returns {boolean} - true if the given listener came from this object
-   */
-  _isLocalListener (listener) {
-    return listener.targetObject === this
   },
 
   // == Ember Lifecycle Hooks =================================================
@@ -181,11 +175,21 @@ export default Mixin.create({
       return
     }
 
-    const spreadListeners = get(sourceObject, `${sourceProperty}._spreadListeners`)
+    const spreadListeners = A(get(sourceObject, `${sourceProperty}._spreadListeners`))
 
     // Remove this listener from the source object property
     if (isArray(spreadListeners)) {
-      spreadListeners.splice(spreadListeners.findIndex(this._isLocalListener), 1)
+      let targetIndex = -1
+
+      spreadListeners.find(function (listener, i) {
+        if (listener.targetObject === this) {
+          targetIndex = i
+
+          return true
+        }
+      })
+
+      spreadListeners.splice(targetIndex, 1)
     }
   }
 
