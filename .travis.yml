@@ -21,7 +21,7 @@ before_script:
 - sudo dpkg -i google-chrome*.deb
 script:
 - npm run lint
-- ember try:one $EMBER_TRY_SCENARIO
+- ember try:one $EMBER_TRY_SCENARIO --- ember test
 install:
 - npm install
 - bower install
@@ -35,7 +35,6 @@ addons:
     - g++-4.8
 env:
   matrix:
-  - EMBER_TRY_SCENARIO=ember-1-12
   - EMBER_TRY_SCENARIO=ember-1-13
   - EMBER_TRY_SCENARIO=ember-2-0
   - EMBER_TRY_SCENARIO=ember-2-1
