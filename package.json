@@ -18,7 +18,8 @@
     "test": "npm run lint && ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^5.1.7"
+    "ember-cli-babel": "^5.1.7",
+    "ember-prop-types": "3.9.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
@@ -43,7 +44,6 @@
     "ember-hook": "1.3.5",
     "ember-load-initializers": "^0.5.1",
     "ember-lodash": "0.0.11",
-    "ember-prop-types": "3.2.0",
     "ember-resolver": "^2.0.3",
     "ember-sinon": "0.6.0",
     "ember-test-utils": "1.2.2",
