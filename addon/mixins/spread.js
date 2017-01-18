@@ -5,9 +5,9 @@
  */
 
 import Ember from 'ember'
-const { assert, computed, defineProperty, get, isArray, isNone, typeOf, Mixin } = Ember
-const { keys } = Object
-import { PropTypes } from 'ember-prop-types'
+const {Mixin, assert, computed, defineProperty, get, isArray, isNone, typeOf} = Ember
+const {keys} = Object
+import {PropTypes} from 'ember-prop-types'
 
 // Constants
 const SPREAD_PROPERTY = 'options'
