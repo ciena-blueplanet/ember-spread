@@ -1,6 +1,7 @@
 import Ember from 'ember'
+const {Controller, computed} = Ember
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   // BEGIN-SNIPPET dot-options
   dotOptions: Ember.Object.create({
     size: 20,
@@ -18,21 +19,21 @@ export default Ember.Controller.extend({
 
   // BEGIN-SNIPPET advanced-options
   noises: ['Grunt', 'growl'],
-  verbalizedNoises: Ember.computed('noises.[]', function () {
+  verbalizedNoises: computed('noises.[]', function () {
     let verbalizedNoises = ''
     this.get('noises').forEach((noise) => {
       verbalizedNoises = verbalizedNoises.concat(`${noise}...`)
     })
     return verbalizedNoises
-  }),
-  advancedOptions: Ember.computed('verbalizedNoises', function () {
+  }).readOnly(),
+  advancedOptions: computed('verbalizedNoises', function () {
     return {
       color: 'red',
       size: 60,
       speak: this.get('verbalizedNoises'),
       onClick: this.actions.moreNoises.bind(this)
     }
-  }),
+  }).readOnly(),
   // END-SNIPPET
 
   hauntShape: 'normal-dot',

@@ -1,1 +1,1 @@
-export { default } from './mixins/spread'
+export {default} from './mixins/spread'
