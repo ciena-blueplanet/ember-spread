@@ -128,6 +128,17 @@ module.exports = {
       }
     },
     {
+      name: 'ember-2-10',
+      bower: {
+        dependencies: {
+          'ember': '~2.10.0'
+        },
+        resolutions: {
+          'ember': '~2.10.0'
+        }
+      }
+    },
+    {
       name: 'ember-release',
       bower: {
         dependencies: {
