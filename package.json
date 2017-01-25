@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "ember build",
-    "lint": "eslint *.js addon config tests --fix",
+    "lint": "eslint *.js addon config tests",
     "start": "ember server",
     "test": "npm run lint && ember test"
   },
@@ -42,6 +42,7 @@
     "ember-prop-types": "^3.10.2",
     "ember-resolver": "^2.1.1",
     "ember-sinon": "0.6.0",
+    "ember-test-utils": "^1.6.1",
     "eslint": "^3.14.0",
     "eslint-config-frost-standard": "^5.3.2",
     "loader.js": "^4.1.0"
