@@ -1,3 +1,10 @@
+# 1.1.2
+
+* **Added** pull request template for Github.
+* **Added** better reporter for test runs.
+* **Added** Firefox to CI build to help ensure we run into no Firefox specific issues.
+* **Added** additional `ember-prop-types` config to make sure no errors slip through the cracks.
+
 # 1.1.1
 
 * **Upgraded** to test against Ember 2.11.
