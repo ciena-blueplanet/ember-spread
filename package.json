@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "ember build",
-    "lint": "eslint *.js addon config tests",
+    "lint": "lint-all-the-things",
     "start": "ember server",
     "test": "npm run lint && ember test"
   },
@@ -31,7 +31,7 @@
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-htmlbars-inline-precompile": "0.3.6",
     "ember-cli-inject-live-reload": "^1.6.1",
-    "ember-cli-mocha": "0.13.1",
+    "ember-cli-mocha": "0.13.2",
     "ember-cli-test-loader": "^1.1.1",
     "ember-cli-uglify": "^1.2.0",
     "ember-code-snippet": "^1.8.0",
@@ -42,9 +42,7 @@
     "ember-prop-types": "^3.10.2",
     "ember-resolver": "^2.1.1",
     "ember-sinon": "0.6.0",
-    "ember-test-utils": "^1.6.1",
-    "eslint": "^3.14.0",
-    "eslint-config-frost-standard": "^5.3.2",
+    "ember-test-utils": "^1.10.3",
     "loader.js": "^4.1.0"
   },
   "keywords": [
