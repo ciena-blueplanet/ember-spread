@@ -3,7 +3,7 @@ dist: trusty
 language: node_js
 
 node_js:
-- '6.9'
+- '6.9.1'
 - 'stable'
 
 addons:
@@ -54,7 +54,7 @@ install:
 
 script:
 - $(npm root -g)/pr-bumper/.travis/maybe-test.sh
-- $(npm root -g)/pr-bumper/.travis/maybe-bump-version.sh
+- if [ $EMBER_TRY_SCENARIO == "default" ]; then $(npm root -g)/pr-bumper/.travis/maybe-bump-version.sh; fi
 
 after_success:
 - $(npm root -g)/pr-bumper/.travis/maybe-publish-coverage.sh
