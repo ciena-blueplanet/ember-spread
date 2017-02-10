@@ -10,7 +10,8 @@
     "build": "ember build",
     "lint": "lint-all-the-things",
     "start": "ember server",
-    "test": "npm run lint && ember test"
+    "test": "npm run lint && npm run test-addon",
+    "test-addon": "EMBER_TRY_SCENARIO=${EMBER_TRY_SCENARIO:=default} && ember try:one $EMBER_TRY_SCENARIO --- COVERAGE=true ember test"
   },
   "repository": "git@github.com:ciena-blueplanet/ember-spread.git",
   "engines": {

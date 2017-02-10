@@ -1,39 +1,21 @@
 sudo: required
 dist: trusty
 language: node_js
+
 node_js:
 - '6.9'
 - 'stable'
-branches:
-  except:
-  - /^v[0-9\.]+/
-before_install:
-- npm config set spin false
-- npm install -g bower coveralls pr-bumper
-- pr-bumper check
-before_script:
-- "export DISPLAY=:99.0"
-- "sh -e /etc/init.d/xvfb start"
-- sleep 3 # give xvfb some time to start
-- sudo apt-get update
-- sudo apt-get install -y libappindicator1 fonts-liberation
-- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-- sudo dpkg -i google-chrome*.deb
-script:
-- npm run lint
-- ember try:one $EMBER_TRY_SCENARIO --- ember test
-install:
-- npm install
-- bower install
-after_success:
-- .travis/publish-coverage.sh
+
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
+    - google-chrome
     packages:
+    - google-chrome-stable
     - g++-4.8
   firefox: 'latest-esr'
+
 env:
   matrix:
   - EMBER_TRY_SCENARIO=ember-1-13
@@ -60,8 +42,26 @@ matrix:
   allow_failures:
   - env: EMBER_TRY_SCENARIO=ember-beta
   - env: EMBER_TRY_SCENARIO=ember-canary
+
+before_install:
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- npm config set spin false
+- npm install -g coveralls pr-bumper
+
+install:
+- $(npm root -g)/pr-bumper/.travis/maybe-install.sh
+
+script:
+- $(npm root -g)/pr-bumper/.travis/maybe-test.sh
+- $(npm root -g)/pr-bumper/.travis/maybe-bump-version.sh
+
+after_success:
+- $(npm root -g)/pr-bumper/.travis/maybe-publish-coverage.sh
+
 before_deploy:
 - pr-bumper bump
+
 deploy:
   provider: npm
   email: npm.ciena@gmail.com
@@ -73,8 +73,10 @@ deploy:
     condition: "$EMBER_TRY_SCENARIO = 'default'"
     node: 'stable'
     tags: true
+
 after_deploy:
 - .travis/publish-gh-pages.sh
+
 notifications:
   slack:
     secure: PZ8UABgfaXG/n0G6Fo4700dujKaAVDROjVcd1+EJoxvICwOgWafdaYOV1+PX9dxF0ws8H5ex3fC+1kaYRl6//hKvLazKikPvFraVz6KbSUc5Bg9xJ4QiuqfwOr4iSY02pheZjnRoye90G5pxygjlQjypTJcSUij6RCUEjVUCLdCU8ZVgAfI6U9oXu1+fU2HX9Ji0KNEaXQBJ/VaBL2dl+o3gJ2M+O8eZWr0mb7fyk0eY5VvAEK6QAw0JWihEETaTigpjbKcrKeBELlcSMtQIuqOi/cNF4XG5SUdHUFGNdtfE5m/dNea8ad8lEE7kerSCFKjIFIETwfwQVoYqZ/1wL7avtM/Rb9c2hPxyn/2H4JdKzH2wlTAFTUqEOqMWjvr/SbAXr/2Go2vSoWJ9B5526uFf3laoPK7PohJh6t3i3Xv5i2ApH5/fUMEdNfV09o1N432xUXaqvTL2Y1NnwWAzXiOxwAE4BC9Hnzh3Qbn1u70EtlNtgfk7bznEfRjzwdLIOniQtw+94UB3xQ32yghKhBPX0f8lIwxPJb6JGzThIrrO8MR0LaSNPqFmMOqcVEhrKXSJd4qJMh1U2Lb/uKxRpQY7sGUEwsIGWZNs3+usa15DD/kyTg/Xn/kfZxm023i6c8h6hIrfMOo/MKra+f1Lpef6Mpr/qeTBqSZC1qb0PCU=
