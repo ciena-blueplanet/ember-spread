@@ -1,28 +1,30 @@
 import Ember from 'ember'
 const {
+  Mixin,
   assert,
   computed: {
     readOnly
   },
   defineProperty,
   get,
+  getWithDefault,
   isNone,
   isPresent,
   set,
-  typeOf
+   typeOf
 } = Ember
-const { keys } = Object
+const {keys} = Object
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   init () {
     this._super(...arguments)
 
-    const spreadProperty = Ember.getWithDefault(this, 'spreadOptions.property') || 'options'
-    const options = Ember.get(this, `attrs.${spreadProperty}`)
+    const spreadProperty = getWithDefault(this, 'spreadOptions.property') || 'options'
+    const options = get(this, `attrs.${spreadProperty}`)
     if (isPresent(options)) {
       assert(`${spreadProperty} requires a hash parameter`, typeOf(options) === 'object')
-      keys(Ember.get(this, spreadProperty)).forEach((key) => {
-        const value = Ember.get(this, spreadProperty)[key]
+      keys(get(this, spreadProperty)).forEach((key) => {
+        const value = get(this, spreadProperty)[key]
         if (typeOf(value) === 'function') {
           set(this, key, value)
           return
@@ -30,8 +32,8 @@ export default Ember.Mixin.create({
         defineProperty(this, key, readOnly(`${spreadProperty}.${key}`))
       })
 
-      const spreadContext = Ember.get(this, 'spreadOptions.context')
-      const spreadSource = Ember.get(this, 'spreadOptions.source')
+      const spreadContext = get(this, 'spreadOptions.context')
+      const spreadSource = get(this, 'spreadOptions.source')
       if (isPresent(spreadContext) && isPresent(spreadSource)) {
         assert('The spread context must be a class instance', typeOf(spreadContext) === 'instance')
         assert('The spread source must be a string', typeOf(spreadSource) === 'string')
@@ -58,8 +60,8 @@ export default Ember.Mixin.create({
   },
 
   willDestroy () {
-    const spreadContext = Ember.get(this, 'spreadOptions.context')
-    const spreadSource = Ember.get(this, 'spreadOptions.source')
+    const spreadContext = get(this, 'spreadOptions.context')
+    const spreadSource = get(this, 'spreadOptions.source')
     if (isPresent(spreadContext) && isPresent(spreadSource)) {
       assert('The spread context must be a class instance', typeOf(spreadContext) === 'instance')
       assert('The spread source must be a string', typeOf(spreadSource) === 'string')

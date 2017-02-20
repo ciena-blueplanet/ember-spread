@@ -1,6 +1,7 @@
 import Ember from 'ember'
+const {Controller} = Ember
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   // BEGIN-SNIPPET dot-options
   dotOptions: Ember.Object.create({
     size: 20,
