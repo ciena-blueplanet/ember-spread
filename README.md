@@ -10,7 +10,7 @@
 [ember-observer-badge]: http://emberobserver.com/badges/ember-spread.svg "Ember Observer score"
 [ember-observer-badge-url]: http://emberobserver.com/addons/ember-spread
 
-[ember-img]: https://img.shields.io/badge/ember-2.3+-orange.svg "Ember 2.3+"
+[ember-img]: https://img.shields.io/badge/ember-2.3+-orange.svg "Ember 1.13+"
 
 [bithound-img]: https://www.bithound.io/github/ciena-blueplanet/ember-spread/badges/score.svg "bitHound"
 [bithound-url]: https://www.bithound.io/github/ciena-blueplanet/ember-spread
@@ -43,8 +43,8 @@ ember install ember-spread
 
 ## Details
 
-A mixin that can be used to [`spread`](https://sebmarkbage.github.io/ecmascript-rest-spread/) a property object 
-against the top level of a component.  Spread allows a component helper to be used without knowing the properties 
+A mixin that can be used to [`spread`](https://sebmarkbage.github.io/ecmascript-rest-spread/) a property object
+against the top level of a component.  Spread allows a component helper to be used without knowing the properties
 the target component will require.
 
 E.g.
@@ -109,14 +109,16 @@ Template instance
 ```
 
 * If you need completely dynamic properties (added to the hash after instantiation) this can be accomplished
-  by providing a context and property to observe for property additions
+  by providing a source object and property to observe for property additions
 
 ```
 {{component-foo
   options=foo
   spreadOptions=(hash
-    context=this
-    source='foo'
+    source=(hash
+      object=this
+      property='foo'
+    )
   )
 }}
 ```

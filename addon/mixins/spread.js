@@ -1,73 +1,196 @@
-import Ember from 'ember'
-const {
-  assert,
-  computed: {
-    readOnly
-  },
-  defineProperty,
-  get,
-  isNone,
-  isPresent,
-  set,
-  typeOf
-} = Ember
-const { keys } = Object
+/**
+ * ember-spread mixin
+ *
+ * Spreads the properties from a source object against the root level of the local object
+ */
 
-export default Ember.Mixin.create({
+import Ember from 'ember'
+const {Mixin, assert, computed, defineProperty, get, isArray, isNone, typeOf} = Ember
+const {keys} = Object
+import {PropTypes} from 'ember-prop-types'
+
+// Constants
+const SPREAD_PROPERTY = 'options'
+
+export default Mixin.create({
+
+  // == Dependencies ==========================================================
+
+  // == Properties ============================================================
+
+  propTypes: {
+    // Keywords
+
+    // Options
+    options: PropTypes.oneOfType([
+      PropTypes.EmberObject,
+      PropTypes.object
+    ]),
+    spreadOptions: PropTypes.shape({
+      property: PropTypes.string,
+      source: PropTypes.shape({
+        object: PropTypes.EmberObject.isRequired,
+        property: PropTypes.string.isRequired
+      })
+    })
+
+    // State
+  },
+
+  // == Computed Properties ===================================================
+
+  // == Functions =============================================================
+
+  /**
+   * Ember objects have a hook for dealing with previously undefined properties
+   * which allows these properties to be brought into the observer system on-the-fly.
+   *
+   * Sets this object as a listener for any unknown property additions.
+   *
+   * @param {object} sourceObject - the source object for the spread
+   * @param {string} sourceProperty - the source property for the spread
+   * @param {string} spreadProperty - the locally bound property for the spread
+   */
+  _defineSourceListener (sourceObject, sourceProperty, spreadProperty) {
+    // Get or create the array of spread listeners on the source object and add this object
+    const spreadListeners = get(sourceObject, `${sourceProperty}._spreadListeners`)
+    if (isNone(spreadListeners)) {
+      get(sourceObject, sourceProperty).set('_spreadListeners', [
+        {
+          targetObject: this,
+          targetProperty: spreadProperty
+        }
+      ])
+    } else {
+      spreadListeners.push({
+        targetObject: this,
+        targetProperty: spreadProperty
+      })
+    }
+
+    // Define the setUnknownProperty function on the source property so that we can
+    // monitor for the addition of new properties and spread them onto the local object
+    defineProperty(get(sourceObject, sourceProperty), 'setUnknownProperty', undefined,
+      function (key, value) {
+        // Set the property to the given value (the expected normal behavior)
+        this[key] = value
+
+        // For each listening target object (registered via spread options)
+        // spread the new property onto the target object
+        this._spreadListeners.forEach(listener => {
+          if (typeOf(value) === 'function') {
+            listener.targetObject.set(key, value)
+          } else {
+            defineProperty(listener.targetObject, key,
+              computed.readOnly(`${listener.targetProperty}.${key}`)
+            )
+          }
+        })
+
+        // Notify all downstream listeners that the property has changed.
+        // This triggers the first observation of the property for the newly
+        // defined computed property on the target object(s)
+        sourceObject.get(sourceProperty).notifyPropertyChange(key)
+      }
+    )
+  },
+
+  /**
+   * Create local properties for each property in the spread hash.
+   * Functions are set directly against the local object, while all
+   * other properties are readOnly computed properties to retain
+   * observer behavior
+   *
+   * Note: We're currently using the private Ember defineProperty function
+   * which is required to establish observer chains (accept computed properties)
+   *
+   * @param {string} spreadProperty - the name of the local property containing the hash
+   * @param {object} spreadableHash - the hash to spread
+   */
+  _defineSpreadProperties (spreadProperty, spreadableHash) {
+    assert(
+      `${spreadProperty} requires an Ember object or primitive object`,
+      ['instance', 'object'].includes(typeOf(spreadableHash))
+    )
+
+    keys(spreadableHash).forEach((key) => {
+      const value = spreadableHash[key]
+
+      if (typeOf(value) === 'function') {
+        this.set(key, value)
+        return
+      }
+
+      defineProperty(this, key, computed.readOnly(`${spreadProperty}.${key}`))
+    })
+  },
+
+  /**
+   * Get the source object and property for the spread hash
+   *
+   * @returns {object} - the source object and property for the spread hash
+   */
+  _getSourceContext () {
+    return {
+      sourceObject: this.get('spreadOptions.source.object'),
+      sourceProperty: this.get('spreadOptions.source.property')
+    }
+  },
+
+  /**
+   * @param {object} listener - a listener object for setUnknownProperty
+   * @returns {boolean} - true if the given listener came from this object
+   */
+  _isLocalListener (listener) {
+    return listener.targetObject === this
+  },
+
+  // == Ember Lifecycle Hooks =================================================
+
   init () {
     this._super(...arguments)
 
-    const spreadProperty = Ember.getWithDefault(this, 'spreadOptions.property') || 'options'
-    const options = Ember.get(this, `attrs.${spreadProperty}`)
-    if (isPresent(options)) {
-      assert(`${spreadProperty} requires a hash parameter`, typeOf(options) === 'object')
-      keys(Ember.get(this, spreadProperty)).forEach((key) => {
-        const value = Ember.get(this, spreadProperty)[key]
-        if (typeOf(value) === 'function') {
-          set(this, key, value)
-          return
-        }
-        defineProperty(this, key, readOnly(`${spreadProperty}.${key}`))
-      })
-
-      const spreadContext = Ember.get(this, 'spreadOptions.context')
-      const spreadSource = Ember.get(this, 'spreadOptions.source')
-      if (isPresent(spreadContext) && isPresent(spreadSource)) {
-        assert('The spread context must be a class instance', typeOf(spreadContext) === 'instance')
-        assert('The spread source must be a string', typeOf(spreadSource) === 'string')
-
-        const spreadListeners = get(spreadContext, `${spreadSource}._spreadListeners`)
-        if (isNone(spreadListeners)) {
-          get(spreadContext, spreadSource).set('_spreadListeners', [this])
-        } else {
-          spreadListeners.push(this)
-        }
-
-        defineProperty(get(spreadContext, spreadSource), '_spreadListeners', [])
-        defineProperty(get(spreadContext, spreadSource), 'setUnknownProperty', undefined,
-          function (key, value) {
-            this[key] = value
-            this._spreadListeners.forEach(listener => {
-              defineProperty(listener, key, readOnly(`${spreadProperty}.${key}`))
-            })
-            spreadContext.get(spreadSource).notifyPropertyChange(key)
-          }
-        )
-      }
+    // Get the spreadable hash
+    const spreadProperty = this.get('spreadOptions.property') || SPREAD_PROPERTY
+    const spreadableHash = this.get(spreadProperty)
+    if (isNone(spreadableHash)) {
+      return
     }
+
+    // Spread the properties in the hash onto the local object
+    this._defineSpreadProperties(spreadProperty, spreadableHash)
+
+    // The above spread only works on properties that were defined on the
+    // hash when it was passed to this context.  However, if we add a listener
+    // to the original object hash in the original context then we can determine
+    // when a new property is added and define a property in this context on-the-fly
+    const {sourceObject, sourceProperty} = this._getSourceContext()
+    if (isNone(sourceObject) || isNone(sourceProperty)) {
+      return
+    }
+
+    // Define a listener for any new properties on the source property
+    this._defineSourceListener(sourceObject, sourceProperty, spreadProperty)
   },
 
   willDestroy () {
-    const spreadContext = Ember.get(this, 'spreadOptions.context')
-    const spreadSource = Ember.get(this, 'spreadOptions.source')
-    if (isPresent(spreadContext) && isPresent(spreadSource)) {
-      assert('The spread context must be a class instance', typeOf(spreadContext) === 'instance')
-      assert('The spread source must be a string', typeOf(spreadSource) === 'string')
+    this._super(...arguments)
 
-      const spreadListeners = get(spreadContext, `${spreadSource}._spreadListeners`)
-      if (isPresent(spreadListeners)) {
-        spreadListeners.splice(spreadListeners.indexOf(this), 1)
-      }
+    const {sourceObject, sourceProperty} = this._getSourceContext()
+    if (isNone(sourceObject) || isNone(sourceProperty)) {
+      return
+    }
+
+    const spreadListeners = get(sourceObject, `${sourceProperty}._spreadListeners`)
+
+    // Remove this listener from the source object property
+    if (isArray(spreadListeners)) {
+      spreadListeners.splice(spreadListeners.findIndex(this._isLocalListener), 1)
     }
   }
+
+  // == DOM Events ============================================================
+
+  // == Actions ===============================================================
+
 })
