@@ -1,9 +1,7 @@
 {
   "name": "ember-spread",
   "dependencies": {
-    "chai-jquery": "^2.0.1",
     "ember": "~2.11.0",
-    "ember-cli-shims": "0.1.1",
-    "sinon-chai": "^2.8.0"
+    "ember-cli-shims": "0.1.1"
   }
 }

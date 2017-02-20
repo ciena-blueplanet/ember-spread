@@ -24,6 +24,7 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.5.0",
+    "chai-jquery": "^2.0.0",
     "ember-cli": "~2.11.0",
     "ember-cli-app-version": "^2.0.1",
     "ember-cli-chai": "0.3.2",
@@ -44,7 +45,8 @@
     "ember-resolver": "^2.1.1",
     "ember-sinon": "0.6.0",
     "ember-test-utils": "^1.10.3",
-    "loader.js": "^4.1.0"
+    "loader.js": "^4.1.0",
+    "sinon-chai": "^2.8.0"
   },
   "keywords": [
     "ember-addon"
