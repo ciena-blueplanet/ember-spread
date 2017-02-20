@@ -1,5 +1,5 @@
 /bower_components
-/config/ember-try.js
+/config
 /dist
 /tests
 /tmp
@@ -7,13 +7,13 @@
 .bowerrc
 .editorconfig
 .ember-cli
+.eslintignore
 .eslintrc
 .github
 .gitignore
 .jshintrc
 .pullapprove.yml
 .remarkrc
-.sass-lint.yml
 .travis
 .watchmanconfig
 .travis.yml

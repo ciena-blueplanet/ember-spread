@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {Controller} = Ember
+const {Controller, computed} = Ember
 
 export default Controller.extend({
   // BEGIN-SNIPPET dot-options
@@ -15,6 +15,25 @@ export default Controller.extend({
     size: 40,
     speak: 'Ok, this is getting ridiculous...'
   }),
+  // END-SNIPPET
+
+  // BEGIN-SNIPPET advanced-options
+  noises: ['Grunt', 'growl'],
+  verbalizedNoises: computed('noises.[]', function () {
+    let verbalizedNoises = ''
+    this.get('noises').forEach((noise) => {
+      verbalizedNoises = verbalizedNoises.concat(`${noise}...`)
+    })
+    return verbalizedNoises
+  }).readOnly(),
+  advancedOptions: computed('verbalizedNoises', function () {
+    return {
+      color: 'red',
+      size: 60,
+      speak: this.get('verbalizedNoises'),
+      onClick: this.actions.moreNoises.bind(this)
+    }
+  }).readOnly(),
   // END-SNIPPET
 
   hauntShape: 'normal-dot',
@@ -38,6 +57,16 @@ export default Controller.extend({
     },
     // END-SNIPPET
 
+    haunt () {
+      if (this.get('hauntShape') === 'were-triangle') {
+        this.set('hauntShape', 'normal-dot')
+        this.set('hauntOptions.speak', null)
+      } else {
+        this.set('hauntShape', 'were-triangle')
+        this.set('hauntOptions.speak', '01100111 01110010 01101111 01110111 01101100')
+      }
+    },
+
     // BEGIN-SNIPPET transform
     transform () {
       if (this.get('wereShape') === 'were-triangle') {
@@ -50,14 +79,10 @@ export default Controller.extend({
     },
     // END-SNIPPET
 
-    haunt () {
-      if (this.get('hauntShape') === 'were-triangle') {
-        this.set('hauntShape', 'normal-dot')
-        this.set('hauntOptions.speak', null)
-      } else {
-        this.set('hauntShape', 'were-triangle')
-        this.set('hauntOptions.speak', '01100111 01110010 01101111 01110111 01101100')
-      }
+    // BEGIN-SNIPPET more-noises
+    moreNoises () {
+      this.set('noises', ['Snarf', 'snuffle'])
     }
+    // END-SNIPPET
   }
 })
