@@ -18,8 +18,18 @@ addons:
 
 env:
   matrix:
+  - EMBER_TRY_SCENARIO=ember-1-13
+  - EMBER_TRY_SCENARIO=ember-2-0
+  - EMBER_TRY_SCENARIO=ember-2-1
+  - EMBER_TRY_SCENARIO=ember-2-2
   - EMBER_TRY_SCENARIO=ember-2-3
+  - EMBER_TRY_SCENARIO=ember-2-4
+  - EMBER_TRY_SCENARIO=ember-2-5
+  - EMBER_TRY_SCENARIO=ember-2-6
+  - EMBER_TRY_SCENARIO=ember-2-7
   - EMBER_TRY_SCENARIO=ember-2-8
+  - EMBER_TRY_SCENARIO=ember-2-9
+  - EMBER_TRY_SCENARIO=ember-2-10
   - EMBER_TRY_SCENARIO=default
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta
@@ -37,6 +47,7 @@ matrix:
 before_install:
 - "export DISPLAY=:99.0"
 - "sh -e /etc/init.d/xvfb start"
+- sleep 3 # give xvfb some time to start
 - npm config set spin false
 - npm install -g bower coveralls pr-bumper
 
