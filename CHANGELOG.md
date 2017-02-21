@@ -1,3 +1,12 @@
+# 1.1.3
+* **Fixed** build by disable dependency snapshot which is causing build to fail and not publish.
+Fixes from: https://github.com/ciena-blueplanet/ember-spread/pull/23
+* **Updated** to use latest pr-bumper with support for `none`
+* **Updated** `sinon-chai` to come from npm instead of bower
+* **Updated** `chai-query` to come from npm instead of bower
+* **Updated** `ember-cli-code-coverage` to version `0.3.5` until resolution of: https://github.com/kategengler/ember-cli-code-coverage/issues/75
+
+
 # 1.1.2
 
 * **Added** pull request template for Github.
