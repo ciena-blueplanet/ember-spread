@@ -1,0 +1,46 @@
+{
+  "ci": {
+    "env": {
+      "branch": "TRAVIS_BRANCH",
+      "buildNumber": "TRAVIS_BUILD_NUMBER",
+      "pr": "TRAVIS_PULL_REQUEST",
+      "repoSlug": "TRAVIS_REPO_SLUG"
+    },
+    "gitUser": {
+      "email": "travis.ci.ciena@gmail.com",
+      "name": "Travis CI"
+    },
+    "provider": "travis"
+  },
+  "isPr": false,
+  "owner": "",
+  "repo": "",
+  "dependencies": {
+    "production": false,
+    "output": {
+      "requirementsFile": "js-requirements.json",
+      "reposFile": "repos",
+      "ignoreFile": "ignore"
+    },
+    "additionalRepos": [
+      {
+        "pattern": "\\s+\"(ember\\-frost\\-\\S+)\"",
+        "url": "https://github.com/ciena-frost/${REPO_NAME}.git"
+      },
+      {
+        "pattern": "\\s+\"(frost\\-\\S+)\"",
+        "url": "https://bitbucket.ciena.com/scm/bp_frost/${REPO_NAME}.git"
+      }
+    ]
+  },
+  "dependencySnapshotFile": "",
+  "vcs": {
+    "domain": "github.com",
+    "env": {
+      "readToken": "RO_GH_TOKEN",
+      "writeToken": "GITHUB_TOKEN"
+    },
+    "provider": "github"
+  },
+  "prependChangelog": true
+}
