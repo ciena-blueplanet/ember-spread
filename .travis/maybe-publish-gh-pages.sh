@@ -1,5 +1,13 @@
 #!/bin/bash
 
+source $(npm root -g)/pr-bumper/.travis/is-bump-commit.sh
+
+if isBumpCommit
+then
+  echo "Skipping gh-pages publish for version bump commit"
+  exit 0
+fi
+
 VERSION=`node -e "console.log(require('./package.json').version)"`
 TMP_GH_PAGES_DIR=.gh-pages-demo
 

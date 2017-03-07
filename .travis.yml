@@ -9,12 +9,16 @@ node_js:
 addons:
   apt:
     sources:
-    - ubuntu-toolchain-r-
+    - ubuntu-toolchain-r-test
     - google-chrome
     packages:
     - google-chrome-stable
     - g++-4.8
   firefox: 'latest-esr'
+
+cache:
+  directories:
+  - node_modules
 
 env:
   matrix:
@@ -45,21 +49,25 @@ matrix:
   - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
-- "export DISPLAY=:99.0"
-- "sh -e /etc/init.d/xvfb start"
-- sleep 3 # give xvfb some time to start
 - npm config set spin false
-- npm install -g bower coveralls pr-bumper
+- npm install -g coveralls pr-bumper@^1.0.0
+- $(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh
 
 install:
 - $(npm root -g)/pr-bumper/.travis/maybe-install.sh
 
+before_script:
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3 # give xvfb some time to start
+
 script:
 - $(npm root -g)/pr-bumper/.travis/maybe-test.sh
-- if [ $EMBER_TRY_SCENARIO == "default" ]; then $(npm root -g)/pr-bumper/.travis/maybe-bump-version.sh; fi
+- .travis/maybe-bump-version.sh
 
 after_success:
-- $(npm root -g)/pr-bumper/.travis/maybe-publish-coverage.sh
+- .travis/maybe-publish-coverage.sh
+- .travis/maybe-publish-gh-pages.sh
 
 deploy:
   provider: npm
@@ -70,11 +78,8 @@ deploy:
   on:
     all_branches: true
     condition: "$EMBER_TRY_SCENARIO = 'default'"
-    node: 'stable'
+    node: '6.9.1'
     tags: true
-
-after_deploy:
-- .travis/publish-gh-pages.sh
 
 notifications:
   slack:
