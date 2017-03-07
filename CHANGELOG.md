@@ -1,3 +1,6 @@
+# 1.1.4
+* **Updated** the travis scripts used for bumping and publishing
+
 # 1.1.3
 * **Fixed** build by disable dependency snapshot which is causing build to fail and not publish.
 Fixes from: https://github.com/ciena-blueplanet/ember-spread/pull/23
