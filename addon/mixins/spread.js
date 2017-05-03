@@ -5,8 +5,8 @@
  */
 
 import Ember from 'ember'
-const {Mixin, assert, computed, defineProperty, get, isArray, isNone, typeOf, makeArray} = Ember
-const {keys} = Object
+const {Mixin, assert, computed, defineProperty, get, isArray, isNone, makeArray, typeOf} = Ember
+const {assign, keys} = Object
 import {PropTypes} from 'ember-prop-types'
 
 // Constants
@@ -130,35 +130,33 @@ export default Mixin.create({
         return
       }
 
-      // https://github.com/emberjs/ember.js/blob/v2.12.0/packages/ember-runtime/lib/system/core_object.js#L127-L141
-      if (
-        concatenatedProperties &&
-        concatenatedProperties.length > 0 &&
-        concatenatedProperties.indexOf(key) >= 0
-      ) {
+      // Based on: https://github.com/emberjs/ember.js/blob/v2.12.0/packages/ember-runtime/lib/system/core_object.js#L127-L141
+      if (Array.isArray(concatenatedProperties) && concatenatedProperties.indexOf(key) !== -1) {
         const baseValue = this[key]
 
-        if (baseValue) {
-          if ('function' === typeof baseValue.concat) {
-            this.set(key, baseValue.concat(value))
-          } else {
-            this.set(key, makeArray(baseValue).concat(value))
-          }
-        } else {
+        if (!baseValue) {
           this.set(key, makeArray(value))
+        } else if (typeof baseValue.concat === 'function') {
+          this.set(key, baseValue.concat(value))
+        } else {
+          this.set(key, makeArray(baseValue).concat(value))
         }
 
         return
       }
 
-      // https://github.com/emberjs/ember.js/blob/v2.12.0/packages/ember-runtime/lib/system/core_object.js#L143-L149
-      if (
-        mergedProperties &&
-        mergedProperties.length &&
-        mergedProperties.indexOf(key) >= 0
-      ) {
+      // Based on: https://github.com/emberjs/ember.js/blob/v2.12.0/packages/ember-runtime/lib/system/core_object.js#L143-L149
+      if (Array.isArray(mergedProperties) && mergedProperties.indexOf(key) !== -1) {
         const originalValue = this[key]
-        this.set(key, Object.assign({}, originalValue, value))
+
+        if (typeOf(value) === 'object') {
+          if (typeOf(originalValue) === 'object') {
+            this.set(key, assign({}, originalValue, value))
+          } else {
+            this.set(key, assign({}, value))
+          }
+        }
+
         return
       }
 
