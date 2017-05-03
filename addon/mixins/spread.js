@@ -5,7 +5,7 @@
  */
 
 import Ember from 'ember'
-const {Mixin, assert, computed, defineProperty, get, isArray, isNone, typeOf} = Ember
+const {Mixin, assert, computed, defineProperty, get, isArray, isNone, typeOf, makeArray} = Ember
 const {keys} = Object
 import {PropTypes} from 'ember-prop-types'
 
@@ -97,27 +97,68 @@ export default Mixin.create({
 
   /**
    * Create local properties for each property in the spread hash.
-   * Functions are set directly against the local object, while all
-   * other properties are readOnly computed properties to retain
-   * observer behavior
+   * Functions are set directly against the local object. Properties listed in
+   * the component's `concatenatedProperties` or `mergedProperties` are
+   * concatenated / merged appropriately.
+   *
+   * Note: These properties are not observed for changes.
+   *
+   * All other properties are readOnly computed properties to retain
+   * observer behavior.
    *
    * Note: We're currently using the private Ember defineProperty function
    * which is required to establish observer chains (accept computed properties)
    *
    * @param {string} spreadProperty - the name of the local property containing the hash
    * @param {object} spreadableHash - the hash to spread
+   * @param {string[]} staticProperties - properties that are not set up as an alias
    */
-  _defineSpreadProperties (spreadProperty, spreadableHash) {
+  _defineSpreadProperties (spreadProperty, spreadableHash, staticProperties = ['tagName', 'elementId']) {
     assert(
       `${spreadProperty} requires an Ember object or primitive object`,
       ['instance', 'object'].includes(typeOf(spreadableHash))
     )
 
+    const concatenatedProperties = this.get('concatenatedProperties')
+    const mergedProperties = this.get('mergedProperties')
+
     keys(spreadableHash).forEach((key) => {
       const value = spreadableHash[key]
 
-      if (typeOf(value) === 'function') {
+      if (staticProperties.includes(key) || typeOf(value) === 'function') {
         this.set(key, value)
+        return
+      }
+
+      // https://github.com/emberjs/ember.js/blob/v2.12.0/packages/ember-runtime/lib/system/core_object.js#L127-L141
+      if (
+        concatenatedProperties &&
+        concatenatedProperties.length > 0 &&
+        concatenatedProperties.indexOf(key) >= 0
+      ) {
+        const baseValue = this[key]
+
+        if (baseValue) {
+          if ('function' === typeof baseValue.concat) {
+            this.set(key, baseValue.concat(value))
+          } else {
+            this.set(key, makeArray(baseValue).concat(value))
+          }
+        } else {
+          this.set(key, makeArray(value))
+        }
+
+        return
+      }
+
+      // https://github.com/emberjs/ember.js/blob/v2.12.0/packages/ember-runtime/lib/system/core_object.js#L143-L149
+      if (
+        mergedProperties &&
+        mergedProperties.length &&
+        mergedProperties.indexOf(key) >= 0
+      ) {
+        const originalValue = this[key]
+        this.set(key, Object.assign({}, originalValue, value))
         return
       }
 
