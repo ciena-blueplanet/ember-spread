@@ -1,3 +1,7 @@
+# 1.1.5 (2017-05-10)
+* **Updated** the secure auth tokens for `.travis.yml`
+
+
 # 1.1.4
 * **Updated** the travis scripts used for bumping and publishing
 
