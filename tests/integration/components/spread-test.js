@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, computed} = Ember
 import {$hook, initialize as initializeHook} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import SpreadMixin from 'ember-spread'
@@ -20,12 +20,13 @@ const SpreadComponent = Component.extend(SpreadMixin, {
       {{property}}
     </div>
     <div data-test={{hook 'mergedProperty'}}>
-      {{#each-in mergedProperty as |key value|}}
-        {{key}}: {{value}}<br>
-      {{/each-in}}
+      {{mergedPropertyJson}}
     </div>
   `,
   mergedProperty: {baseValue: true},
+  mergedPropertyJson: computed('mergedProperty', function () {
+    return JSON.stringify(this.get('mergedProperty'))
+  }).readOnly(),
 
   // == Actions ===============================================================
 
