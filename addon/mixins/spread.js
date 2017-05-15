@@ -122,6 +122,8 @@ export default Mixin.create({
     const concatenatedProperties = this.get('concatenatedProperties')
     const mergedProperties = this.get('mergedProperties')
 
+    // NOTE: disabled linting rule to stay as close as possible to Ember core's code
+    // eslint-disable-next-line complexity
     keys(spreadableHash).forEach((key) => {
       const value = spreadableHash[key]
 
