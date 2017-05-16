@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {Component} = Ember
+const {Component, computed} = Ember
 import {$hook, initialize as initializeHook} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import SpreadMixin from 'ember-spread'
@@ -12,12 +12,21 @@ import sinon from 'sinon'
 const SpreadComponent = Component.extend(SpreadMixin, {
   // == Properties ============================================================
 
+  mergedProperties: ['mergedProperty'],
+  classNames: 'base-class',
   hook: 'spreadTest',
   layout: hbs`
     <div data-test={{hook 'spreadProperty'}}>
       {{property}}
     </div>
+    <div data-test={{hook 'mergedProperty'}}>
+      {{mergedPropertyJson}}
+    </div>
   `,
+  mergedProperty: {baseValue: true},
+  mergedPropertyJson: computed('mergedProperty', function () {
+    return JSON.stringify(this.get('mergedProperty'))
+  }).readOnly(),
 
   // == Actions ===============================================================
 
@@ -45,7 +54,11 @@ describe('ember-spread', function () {
     beforeEach(function () {
       this.setProperties({
         options: {
+          tagName: 'span',
+          elementId: 'test-id',
+          classNames: 'test-class',
           property: 'Neat',
+          mergedProperty: {testValue: true},
           onClick: handler
         }
       })
@@ -59,6 +72,19 @@ describe('ember-spread', function () {
 
     it('should bind spread properties as local properties', function () {
       expect($hook('spreadProperty').text().trim()).to.equal('Neat')
+    })
+
+    it('should set static properties as plain local properties', function () {
+      expect($hook('spreadTest').attr('id')).to.equal('test-id')
+      expect($hook('spreadTest').prop('tagName').toLowerCase()).to.equal('span')
+    })
+
+    it('should concatenate properties, if they are listed as concatenatedProperties', function () {
+      expect($hook('spreadTest').attr('class')).to.include('base-class').and.include('test-class')
+    })
+
+    it('should merge properties, if they are listed as mergedProperties', function () {
+      expect($hook('mergedProperty').text()).to.include('baseValue').and.include('testValue')
     })
 
     it('should bind spread functions as local functions', function () {
@@ -83,7 +109,11 @@ describe('ember-spread', function () {
     beforeEach(function () {
       this.setProperties({
         options: {
+          tagName: 'span',
+          elementId: 'test-id',
+          classNames: 'test-class',
           property: 'Neat',
+          mergedProperty: {testValue: true},
           onClick: handler
         }
       })
@@ -100,6 +130,19 @@ describe('ember-spread', function () {
 
     it('should bind spread properties as local properties', function () {
       expect($hook('spreadProperty').text().trim()).to.equal('Neat')
+    })
+
+    it('should set static properties as plain local properties', function () {
+      expect($hook('spreadTest').attr('id')).to.equal('test-id')
+      expect($hook('spreadTest').prop('tagName').toLowerCase()).to.equal('span')
+    })
+
+    it('should concatenate properties, if they are listed as concatenatedProperties', function () {
+      expect($hook('spreadTest').attr('class')).to.include('base-class').and.include('test-class')
+    })
+
+    it('should merge properties, if they are listed as mergedProperties', function () {
+      expect($hook('mergedProperty').text()).to.include('baseValue').and.include('testValue')
     })
 
     it('should bind spread functions as local functions', function () {
