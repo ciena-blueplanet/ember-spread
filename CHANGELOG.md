@@ -1,3 +1,6 @@
+# 1.2.0 (2017-05-16)
+**Added** support for static properties (`tagName`, `elementId`), [`concatenatedProperties`](https://www.emberjs.com/api/classes/Ember.Component.html#property_concatenatedProperties) (`classNames`, ...) and [`mergedProperties`](https://www.emberjs.com/api/classes/Ember.Component.html#property_mergedProperties)
+
 # 1.1.5 (2017-05-10)
 * **Updated** the secure auth tokens for `.travis.yml`
 
