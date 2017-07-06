@@ -22,19 +22,9 @@ cache:
 
 env:
   matrix:
-  - EMBER_TRY_SCENARIO=ember-1-13
-  - EMBER_TRY_SCENARIO=ember-2-0
-  - EMBER_TRY_SCENARIO=ember-2-1
-  - EMBER_TRY_SCENARIO=ember-2-2
-  - EMBER_TRY_SCENARIO=ember-2-3
-  - EMBER_TRY_SCENARIO=ember-2-4
-  - EMBER_TRY_SCENARIO=ember-2-5
-  - EMBER_TRY_SCENARIO=ember-2-6
-  - EMBER_TRY_SCENARIO=ember-2-7
-  - EMBER_TRY_SCENARIO=ember-2-8
-  - EMBER_TRY_SCENARIO=ember-2-9
-  - EMBER_TRY_SCENARIO=ember-2-10
-  - EMBER_TRY_SCENARIO=default
+  - EMBER_TRY_SCENARIO=ember-lts-2.4
+  - EMBER_TRY_SCENARIO=ember-lts-2.8
+  - EMBER_TRY_SCENARIO=ember-default
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta
   - EMBER_TRY_SCENARIO=ember-canary
@@ -47,6 +37,7 @@ matrix:
   allow_failures:
   - env: EMBER_TRY_SCENARIO=ember-beta
   - env: EMBER_TRY_SCENARIO=ember-canary
+  - node_js: 'stable'
 
 before_install:
 - npm config set spin false
@@ -77,7 +68,7 @@ deploy:
     secure: YAVDd2gnJqyC9N+2IwITWDMhbon32W/AuSJrj7knCT4jshCxeKwDga9xjMiC2H5RBjmQI4KI4oDHohtAiS6bHXKEpdrPuO9mZCdFcZWxjjZWL8IoI+QDWbr/FTYlHje+ShckmWlAdoFgd+dWFzooll1/xBDo3YNUm+8f2k6JdgfTJnQ2wSd8xkNRg0Tgek0UUm93b3ZaqFA3c4za8xqrYrrHju281ncPiJZm1YVf2T2ZcTV9GOMgNZccC61eMSqI2AsgqGdA/q3ZOqS80qPyoUV+OoKAlHWzoI5JFcKn153PM1HFY7KT55/rE0ZOnf71f1YhV/ivSLlbzJjuKqFh7HKIBonRMIVS3Uf/fHpkZvn9lF0TNDkyx3KLOkttqYFLlUUDNRs4igeNO9jmzdiyMDPOykc/ifSwOLIhwxI/pmWR3Q3o8vieVkKYLl0yWJKE8VTl9J5+XO2PQ/dp253nYlVOtKgN34a/INCnKIp1vXoXSedZhxTdVqzm4g+WIajIpP2ns0fAM2g+4QGC9NkeusDJC46p6Qh4q7sBy7ambVseI8FdyFAAao8J+TIl+nwUWNtBgKKJlBefQ5uqHlc9JQi8c+FBfAce5PfILRiD3UawRPVEwQ58SwwaV9gSrV5PMqilBlg/r5IefLmponCwYYVDiRf+1cGTWAAarXgvq+E=
   on:
     all_branches: true
-    condition: "$EMBER_TRY_SCENARIO = 'default'"
+    condition: "$EMBER_TRY_SCENARIO = 'ember-default'"
     node: '6.9.1'
     tags: true
 
