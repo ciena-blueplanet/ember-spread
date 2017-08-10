@@ -1,3 +1,7 @@
+# 1.2.2 (2017-08-10)
+* **Updated** dependencies
+* **Removed** deprecated `ember-hash-helper-polyfill`
+
 # 1.2.1 (2017-07-06)
 * **Updated** to Ember CLI 2.12.3 and Ember 2.12.x
 * **Updated** ember-try config matrix with Ember LTS 2.4 and LTS 2.8
