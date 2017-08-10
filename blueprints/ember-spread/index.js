@@ -2,7 +2,7 @@ module.exports = {
   afterInstall: function () {
     return this.addAddonsToProject({
       packages: [
-        {name: 'ember-prop-types', target: '^3.0.0'}
+        {name: 'ember-prop-types', target: '^3.14.1'}
       ]
     })
   },
