@@ -48,6 +48,7 @@
     "ember-sinon": "^0.7.0",
     "ember-source": "~2.15.0",
     "ember-test-utils": "^4.3.2",
+    "eslint-plugin-ember": "^4.5.0",
     "loader.js": "^4.2.3",
     "sinon-chai": "^2.13.0"
   },
@@ -55,6 +56,7 @@
     "ember-addon"
   ],
   "dependencies": {
+    "babel-plugin-ember-modules-api-polyfill": "^2.0.1",
     "ember-cli-babel": "^6.3.0"
   },
   "ember-addon": {

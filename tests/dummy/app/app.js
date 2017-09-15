@@ -1,5 +1,4 @@
-import Ember from 'ember'
-const {Application} = Ember
+import Application from '@ember/application'
 import loadInitializers from 'ember-load-initializers'
 
 import config from './config/environment'
