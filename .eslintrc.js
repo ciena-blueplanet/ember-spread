@@ -4,6 +4,6 @@ module.exports = {
     'ember'
   ],
   rules: {
-    'ember/no-old-shims': 'error'
+    'ember/new-module-imports': 'error'
   }
 }
