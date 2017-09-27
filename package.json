@@ -43,7 +43,7 @@
     "ember-frost-test": "^2.1.2",
     "ember-hook": "^1.4.2",
     "ember-load-initializers": "^1.0.0",
-    "ember-prop-types": "git://github.com/juwara0/ember-prop-types#upgradeEmberCli_2-15-1",
+    "ember-prop-types": "^4.0.0",
     "ember-resolver": "^4.0.0",
     "ember-sinon": "^0.7.0",
     "ember-source": "~2.15.0",
