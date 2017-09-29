@@ -1,3 +1,12 @@
+# 2.0.0 (2017-09-29)
+* **Updated** to Ember CLI 2.15.1 (babel 6)
+* **Updated** testing dependencies
+* **Updated** to use Ember Javascript Modules API
+(https://github.com/emberjs/rfcs/blob/master/text/0176-javascript-module-api.md)
+* **Added** eslint rule to require usage of new modules syntax (will remove once added to ember-test-utils)
+* **Updated** to use Ember CLI 2.15.1 inter-dependencies
+* **Updated** to use headless Chrome in travis CI
+
 # 1.2.2 (2017-08-10)
 * **Updated** dependencies
 * **Removed** deprecated `ember-hash-helper-polyfill`
