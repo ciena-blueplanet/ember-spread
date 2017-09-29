@@ -1,3 +1,9 @@
 module.exports = {
-  extends: 'frost-standard'
+  extends: 'frost-standard',
+  plugins: [
+    'ember'
+  ],
+  rules: {
+    'ember/new-module-imports': 'error'
+  }
 }
