@@ -1,3 +1,7 @@
+# 2.0.1 (2017-10-11)
+* **Updated** to Ember CLI 2.16.1
+
+
 # 2.0.0 (2017-09-29)
 * **Updated** to Ember CLI 2.15.1 (babel 6)
 * **Updated** testing dependencies
