@@ -7,7 +7,13 @@ node_js:
 - 'stable'
 
 addons:
-  chrome: stable
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - google-chrome
+    packages:
+    - google-chrome-stable
+    - g++-4.8
   firefox: 'latest'
 
 cache:
@@ -16,8 +22,8 @@ cache:
 
 env:
   matrix:
+  - EMBER_TRY_SCENARIO=ember-lts-2.4
   - EMBER_TRY_SCENARIO=ember-lts-2.8
-  - EMBER_TRY_SCENARIO=ember-lts-2.12
   - EMBER_TRY_SCENARIO=ember-default
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta

@@ -4,11 +4,8 @@
  * Spreads the properties from a source object against the root level of the local object
  */
 
-import {isArray, makeArray} from '@ember/array'
-import {assert} from '@ember/debug'
-import {computed, defineProperty, get} from '@ember/object'
-import Mixin from '@ember/object/mixin'
-import {isNone, typeOf} from '@ember/utils'
+import Ember from 'ember'
+const {Mixin, assert, computed, defineProperty, get, isArray, isNone, makeArray, typeOf} = Ember
 const {assign, keys} = Object
 import {PropTypes} from 'ember-prop-types'
 

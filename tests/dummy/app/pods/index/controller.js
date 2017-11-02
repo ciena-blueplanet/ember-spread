@@ -1,9 +1,9 @@
-import Controller from '@ember/controller'
-import EmberObject, {computed} from '@ember/object'
+import Ember from 'ember'
+const {Controller, computed} = Ember
 
 export default Controller.extend({
   // BEGIN-SNIPPET dot-options
-  dotOptions: EmberObject.create({
+  dotOptions: Ember.Object.create({
     size: 20,
     speak: 'None of my shirts fit...'
   }),
@@ -11,7 +11,7 @@ export default Controller.extend({
 
   // BEGIN-SNIPPET were-options
   wereShape: 'normal-dot',
-  wereOptions: EmberObject.create({
+  wereOptions: Ember.Object.create({
     size: 40,
     speak: 'Ok, this is getting ridiculous...'
   }),
@@ -37,7 +37,7 @@ export default Controller.extend({
   // END-SNIPPET
 
   hauntShape: 'normal-dot',
-  hauntOptions: EmberObject.create({
+  hauntOptions: Ember.Object.create({
     size: 16,
     color: 'rgb(220, 36, 46)'
   }),

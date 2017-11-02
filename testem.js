@@ -12,13 +12,5 @@ module.exports = {
     'Chrome'
   ],
   reporter: new Reporter(),
-  test_page: 'tests/index.html?hidepassed',
-  browser_args: {
-    Chrome: [
-      '--disable-gpu',
-      '--headless',
-      '--remote-debugging-port=9222',
-      '--window-size=1440,900'
-    ]
-  }
+  test_page: 'tests/index.html?hidepassed'
 }
