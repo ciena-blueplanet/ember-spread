@@ -1,5 +1,5 @@
-import Component from '@ember/component'
-import {computed} from '@ember/object'
+import Ember from 'ember'
+const {Component, computed} = Ember
 
 import layout from './template'
 // BEGIN-SNIPPET mixin

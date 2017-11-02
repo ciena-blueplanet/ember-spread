@@ -1,6 +1,6 @@
-import Component from '@ember/component'
-import EmberObject, {computed} from '@ember/object'
 import {expect} from 'chai'
+import Ember from 'ember'
+const {Component, computed} = Ember
 import {$hook, initialize as initializeHook} from 'ember-hook'
 import {setupComponentTest} from 'ember-mocha'
 import SpreadMixin from 'ember-spread'
@@ -166,7 +166,7 @@ describe('ember-spread', function () {
   describe('when providing a source binding', function () {
     describe('and using the default (options) spread property', function () {
       beforeEach(function () {
-        this.set('options', EmberObject.create({}))
+        this.set('options', Ember.Object.create({}))
 
         this.render(hbs`
           {{spread-test
@@ -217,7 +217,7 @@ describe('ember-spread', function () {
 
     describe('and using a custom spread property', function () {
       beforeEach(function () {
-        this.set('options', EmberObject.create({}))
+        this.set('options', Ember.Object.create({}))
 
         this.render(hbs`
           {{spread-test
@@ -270,7 +270,7 @@ describe('ember-spread', function () {
     describe('and the component is destroyed', function () {
       beforeEach(function () {
         this.setProperties({
-          options: EmberObject.create({}),
+          options: Ember.Object.create({}),
           condition: true
         })
 

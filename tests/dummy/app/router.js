@@ -1,4 +1,5 @@
-import EmberRouter from '@ember/routing/router'
+import Ember from 'ember'
+const {Router: EmberRouter} = Ember
 
 import config from './config/environment'
 
