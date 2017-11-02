@@ -1,3 +1,11 @@
+# 3.0.0 (2017-11-02)
+
+## WARNING: THIS REVERTS EMBER CLI 2.16.1 BACK TO 2.12.3
+
+We apologize for this change. Unfortunately, due to the internal needs of our organization this became a required action.
+
+The 2.16.1 changes are now located in the `ember-cli-2.16.1` branch and will hopefully be contained in a versioned release again in the future.
+
 # 2.0.1 (2017-10-11)
 * **Updated** to Ember CLI 2.16.1
 
