@@ -1,3 +1,11 @@
+# 3.0.1 (2017-11-09)
+* Delete blueprint
+* Remove `ember-prop-types` from `devDependencies` in _package.json_
+* Add `ember-prop-types` to `dependencies` in _package.json_
+
+## Steps to perform in consuming application
+* Remove `ember-prop-types` from `devDependencies` in _package.json_ if this add-on is the only codebase relying on it.
+
 # 3.0.0 (2017-11-02)
 
 ## WARNING: THIS REVERTS EMBER CLI 2.16.1 BACK TO 2.12.3
