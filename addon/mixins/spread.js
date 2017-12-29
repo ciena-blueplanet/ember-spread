@@ -132,7 +132,8 @@ export default Mixin.create({
         return
       }
 
-      // Based on: https://github.com/emberjs/ember.js/blob/v2.12.0/packages/ember-runtime/lib/system/core_object.js#L127-L141
+      // Based on
+      // https://github.com/emberjs/ember.js/blob/v2.12.0/packages/ember-runtime/lib/system/core_object.js#L127-L141
       if (Array.isArray(concatenatedProperties) && concatenatedProperties.indexOf(key) !== -1) {
         const baseValue = this[key]
 
@@ -147,7 +148,8 @@ export default Mixin.create({
         return
       }
 
-      // Based on: https://github.com/emberjs/ember.js/blob/v2.12.0/packages/ember-runtime/lib/system/core_object.js#L143-L149
+      // Based on
+      // https://github.com/emberjs/ember.js/blob/v2.12.0/packages/ember-runtime/lib/system/core_object.js#L143-L149
       if (Array.isArray(mergedProperties) && mergedProperties.indexOf(key) !== -1) {
         const originalValue = this[key]
 
