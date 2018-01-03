@@ -26,6 +26,7 @@
     "bower": "^1.8.2",
     "broccoli-asset-rev": "^2.4.5",
     "chai-jquery": "^2.0.0",
+    "ember-browserify": "^1.2.0",
     "ember-cli": "2.12.3",
     "ember-cli-chai": "0.4.3",
     "ember-cli-code-coverage": "0.3.12",
