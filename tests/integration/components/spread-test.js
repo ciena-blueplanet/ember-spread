@@ -2,8 +2,8 @@ import {expect} from 'chai'
 import Ember from 'ember'
 const {Component, computed} = Ember
 import {$hook, initialize as initializeHook} from 'ember-hook'
-import {setupComponentTest} from 'ember-mocha'
 import SpreadMixin from 'ember-spread'
+import {integration} from 'ember-test-utils/test-support/setup-component-test'
 import hbs from 'htmlbars-inline-precompile'
 import {beforeEach, describe, it} from 'mocha'
 
@@ -37,10 +37,10 @@ const SpreadComponent = Component.extend(SpreadMixin, {
   }
 })
 
-describe('ember-spread', function () {
-  setupComponentTest('ember-spread', {
-    integration: true
-  })
+const test = integration('ember-spread')
+
+describe(test.label, function () {
+  test.setup()
 
   let handler
 
