@@ -1,3 +1,8 @@
+# 3.1.5 (2018-01-03)
+There was an error during release and this version should not have been released.  It was supposed to be `4.0.0`.  The 
+cause of the error is believed to be due to not being able to do a squash merge of a PR when utilizing `pr-bumper`.  
+We will know for sure after the next release attempt.
+
 # 3.0.3 (2018-01-03)
 There was an error during release and this version should not have been released.  It was supposed to be `4.0.0`.
 
