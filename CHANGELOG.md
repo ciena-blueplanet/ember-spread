@@ -1,10 +1,7 @@
 # 3.1.5 (2018-01-03)
-* Delete blueprint
-* Remove `ember-prop-types` from `devDependencies` in _package.json_
-* Add `ember-prop-types` to `dependencies` in _package.json_
-
-## Steps to perform in consuming application
-* Remove `ember-prop-types` from `devDependencies` in _package.json_ if this add-on is the only codebase relying on it.
+There was an error during release and this version should not have been released.  It was supposed to be `4.0.0`.  The 
+cause of the error is believed to be due to not being able to do a squash merge of a PR when utilizing `pr-bumper`.  
+We will know for sure after the next release attempt.
 
 # 3.0.3 (2018-01-03)
 There was an error during release and this version should not have been released.  It was supposed to be `4.0.0`.
