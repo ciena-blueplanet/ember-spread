@@ -1,3 +1,7 @@
+# 4.0.0 (2018-01-03)
+Version `3.0.2` was supposed to have been released as a major and all subsequent minor releases have been attempts to remedy this.  We believe we have discovered the culprit which is that a squash merge cannot be used against the PR employing `pr-bumper` so if this deploys correctly as `4.0.0` see the changelog entries for the `3.0.2` release.
+  
+
 # 3.1.5 (2018-01-03)
 There was an error during release and this version should not have been released.  It was supposed to be `4.0.0`.  The 
 cause of the error is believed to be due to not being able to do a squash merge of a PR when utilizing `pr-bumper`.  
