@@ -1,3 +1,6 @@
+# 4.0.1 (2018-01-03)
+* Add `ember-browserify` devDependency to address issue in demo app
+
 # 4.0.0 (2018-01-03)
 Version `3.0.2` was supposed to have been released as a major and all subsequent minor releases have been attempts to remedy this.  We believe we have discovered the culprit which is that a squash merge cannot be used against the PR employing `pr-bumper` so if this deploys correctly as `4.0.0` see the changelog entries for the `3.0.2` release.
   
