@@ -1,3 +1,6 @@
+# 3.0.3 (2018-01-03)
+There was an error during release and this version should not have been released.  It was supposed to be `4.0.0`.
+
 # 3.0.2 (2018-01-03)
 There was an error during release and this version should not have been released.  It was supposed to be `4.0.0`.
 
