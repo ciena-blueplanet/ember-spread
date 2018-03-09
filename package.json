@@ -13,7 +13,10 @@
     "test": "npm run lint && npm run test-addon",
     "test-addon": "EMBER_TRY_SCENARIO=${EMBER_TRY_SCENARIO:=ember-default} && ember try:one $EMBER_TRY_SCENARIO --- COVERAGE=true ember test"
   },
-  "repository": "git@github.com:ciena-blueplanet/ember-spread.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ciena-blueplanet/ember-spread.git"
+  },
   "engines": {
     "node": ">= 6.0.0"
   },
@@ -31,7 +34,7 @@
     "ember-cli-chai": "0.4.3",
     "ember-cli-code-coverage": "0.3.12",
     "ember-cli-dependency-checker": "^1.3.0",
-    "ember-cli-frost-blueprints": "^5.0.0",
+    "ember-cli-frost-blueprints": "^5.0.2",
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-htmlbars-inline-precompile": "0.3.12",
     "ember-cli-inject-live-reload": "^1.4.1",
@@ -41,13 +44,13 @@
     "ember-code-snippet": "1.7.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
-    "ember-frost-test": "^4.0.0",
+    "ember-frost-test": "^4.0.1",
     "ember-hook": "1.4.2",
     "ember-load-initializers": "^0.6.0",
     "ember-resolver": "^2.0.3",
     "ember-sinon": "^0.7.0",
     "ember-source": "~2.12.0",
-    "ember-test-utils": "^8.0.0",
+    "ember-test-utils": "^8.1.1",
     "loader.js": "^4.2.3",
     "sinon-chai": "^2.14.0"
   },
@@ -56,7 +59,7 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.7",
-    "ember-prop-types": "^6.0.0"
+    "ember-prop-types": "^7.0.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

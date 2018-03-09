@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$TRAVIS_NODE_VERSION" != "6.9.1" ]
+if [ "$TRAVIS_NODE_VERSION" != "8.1.2" ]
 then
   echo "Skipping version bump for TRAVIS_NODE_VERSION ${TRAVIS_NODE_VERSION}"
   exit 0

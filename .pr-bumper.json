@@ -1,3 +1,7 @@
 {
-  "dependencySnapshotFile": ""
+  "features": {
+    "changelog": {
+      "enabled": true
+    }
+  }
 }
