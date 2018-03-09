@@ -13,7 +13,10 @@
     "test": "npm run lint && npm run test-addon",
     "test-addon": "EMBER_TRY_SCENARIO=${EMBER_TRY_SCENARIO:=ember-default} && ember try:one $EMBER_TRY_SCENARIO --- COVERAGE=true ember test"
   },
-  "repository": "git@github.com:ciena-blueplanet/ember-spread.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ciena-blueplanet/ember-spread.git"
+  },
   "engines": {
     "node": ">= 6.0.0"
   },
@@ -31,7 +34,7 @@
     "ember-cli-chai": "0.4.3",
     "ember-cli-code-coverage": "0.3.12",
     "ember-cli-dependency-checker": "^1.3.0",
-    "ember-cli-frost-blueprints": "^5.0.1",
+    "ember-cli-frost-blueprints": "^5.0.2",
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-htmlbars-inline-precompile": "0.3.12",
     "ember-cli-inject-live-reload": "^1.4.1",
