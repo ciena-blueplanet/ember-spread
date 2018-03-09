@@ -8,7 +8,7 @@ then
   exit 0
 fi
 
-if [ "$TRAVIS_NODE_VERSION" != "6.9.1" ]
+if [ "$TRAVIS_NODE_VERSION" != "8.1.2" ]
 then
   echo "Skipping coverage publish for TRAVIS_NODE_VERSION ${TRAVIS_NODE_VERSION}"
   exit 0
