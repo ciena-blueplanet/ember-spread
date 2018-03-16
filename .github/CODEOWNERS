@@ -1,0 +1,36 @@
+# See https://help.github.com/articles/about-codeowners/ for valid syntax for entries.
+
+# See https://confluence.ciena.com/pages/viewpage.action?pageId=286898209 for more information about the decisions behind the entries in this file
+
+# Default owners for everything in the repo, unless a later match takes precedence
+* @ciena-blueplanet/reviewers
+
+# These files are owned by the repository architecture owners
+/.github/               @ciena-blueplanet/owners-architecture
+/.travis/               @ciena-blueplanet/owners-architecture
+.ember-cli              @ciena-blueplanet/owners-architecture
+.eslintignore           @ciena-blueplanet/owners-architecture
+.eslintrc.js            @ciena-blueplanet/owners-architecture
+.gitignore              @ciena-blueplanet/owners-architecture
+.npmignore              @ciena-blueplanet/owners-architecture
+.pr-bumper.json         @ciena-blueplanet/owners-architecture
+.remarkignore           @ciena-blueplanet/owners-architecture
+.sass-lint.yml          @ciena-blueplanet/owners-architecture
+.template-lintrc.js     @ciena-blueplanet/owners-architecture
+.travis.yml             @ciena-blueplanet/owners-architecture
+.watchmanconfig         @ciena-blueplanet/owners-architecture
+CHANGELOG.md            @ciena-blueplanet/owners-architecture
+LICENSE.md              @ciena-blueplanet/owners-architecture
+NOTES.md                @ciena-blueplanet/owners-architecture
+README.md               @ciena-blueplanet/owners-architecture
+bower.json              @ciena-blueplanet/owners-architecture
+/config/ember-try.js    @ciena-blueplanet/owners-architecture
+/config/environment.js  @ciena-blueplanet/owners-architecture
+/docs/                  @ciena-blueplanet/owners-architecture
+ember-cli-build.js      @ciena-blueplanet/owners-architecture
+index.js                @ciena-blueplanet/owners-architecture
+jsconfig.json           @ciena-blueplanet/owners-architecture
+package.json            @ciena-blueplanet/owners-architecture
+package-lock.json       @ciena-blueplanet/owners-architecture
+testem.js               @ciena-blueplanet/owners-architecture
+testem_firefox_user.js  @ciena-blueplanet/owners-architecture
