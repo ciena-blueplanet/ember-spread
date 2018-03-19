@@ -4,7 +4,7 @@ source $(npm root -g)/pr-bumper/.travis/is-bump-commit.sh
 
 if isBumpCommit
 then
-  echo "Skipping gh-pages publish for version bump commit"
+  echo "Skipping pr-bumper gh-pages publish step for version bump commit"
   exit 0
 fi
 
@@ -14,7 +14,7 @@ TMP_GH_PAGES_DIR=.gh-pages-demo
 # We only want to deploy to gh-pages from "master"
 if [ "${TRAVIS_BRANCH}" != "master" ]
 then
-    echo "Skipping gh-pages publish for branch ${TRAVIS_BRANCH}"
+    echo "Skipping pr-bumper gh-pages publish step for branch [${TRAVIS_BRANCH}]"
     exit 0
 fi
 
@@ -25,5 +25,5 @@ git checkout gh-pages
 git rm -rf *
 cp -r ../dist/* .
 git add --all
-git commit -m "[ci skip] Automated gh-pages commit of ${VERSION}"
+git commit -m "[pr-bumper] Automated gh-pages commit of [${VERSION}]"
 git push origin gh-pages > /dev/null 2>&1
