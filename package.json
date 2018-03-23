@@ -59,7 +59,7 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.7",
-    "ember-prop-types": "^7.0.1"
+    "ember-prop-types": "^7.0.2"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
