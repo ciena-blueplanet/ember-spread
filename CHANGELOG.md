@@ -1,3 +1,6 @@
+# 5.0.1 (2018-04-25)
+* **Updated** usage of `targetObject` to `target` per the deprecation notice: https://www.emberjs.com/deprecations/v2.x#toc_code-targetobject-code
+
 # 5.0.0 (2018-03-09)
 * **Added** `CONTRIBUTING.md` file
 * **Updated** pull request template
