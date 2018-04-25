@@ -57,13 +57,13 @@ export default Mixin.create({
     if (isNone(spreadListeners)) {
       get(sourceObject, sourceProperty).set('_spreadListeners', [
         {
-          targetObject: this,
+          target: this,
           targetProperty: spreadProperty
         }
       ])
     } else {
       spreadListeners.push({
-        targetObject: this,
+        target: this,
         targetProperty: spreadProperty
       })
     }
@@ -79,9 +79,9 @@ export default Mixin.create({
         // spread the new property onto the target object
         this._spreadListeners.forEach(listener => {
           if (typeOf(value) === 'function') {
-            listener.targetObject.set(key, value)
+            listener.target.set(key, value)
           } else {
-            defineProperty(listener.targetObject, key,
+            defineProperty(listener.target, key,
               computed.readOnly(`${listener.targetProperty}.${key}`)
             )
           }
@@ -185,7 +185,7 @@ export default Mixin.create({
    * @returns {boolean} - true if the given listener came from this object
    */
   _isLocalListener (listener) {
-    return listener.targetObject === this
+    return listener.target === this
   },
 
   // == Ember Lifecycle Hooks =================================================
