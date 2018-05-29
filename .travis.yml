@@ -3,7 +3,7 @@ dist: trusty
 language: node_js
 
 node_js:
-- $PUBLISH_NODE_VERSION
+- '8.6.0'
 
 addons:
   apt:
@@ -68,7 +68,7 @@ deploy:
   on:
     all_branches: true
     condition: "$EMBER_TRY_SCENARIO = 'ember-default'"
-    node: $PUBLISH_NODE_VERSION
+    node: '8.6.0'
     tags: true
 
 after_deploy:
