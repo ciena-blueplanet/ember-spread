@@ -1,3 +1,8 @@
+# 5.0.2 (2018-07-20)
+
+* **Fixed** Travis API key.
+
+
 # 5.0.1 (2018-04-25)
 * **Updated** usage of `targetObject` to `target` per the deprecation notice: https://www.emberjs.com/deprecations/v2.x#toc_code-targetobject-code
 
