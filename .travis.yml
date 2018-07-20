@@ -1,10 +1,8 @@
 sudo: required
 dist: trusty
 language: node_js
-
 node_js:
-- '8.6.0'
-
+- 8.6.0
 addons:
   apt:
     sources:
@@ -13,12 +11,10 @@ addons:
     packages:
     - google-chrome-stable
     - g++-4.8
-  firefox: 'latest'
-
+  firefox: latest
 cache:
   directories:
   - node_modules
-
 env:
   matrix:
   - EMBER_TRY_SCENARIO=ember-lts-2.4
@@ -30,50 +26,41 @@ env:
   global:
   - CXX=g++-4.8
   - secure: t/8dGCxzUyJGxWq4/YIjqAiupHBeTdMdfv9gMDPbXgo1CPLBAt4ulJZVBJNHRVWH2ZQOouSRdCHcSO3jTzCe19nTxTE50ABgG6EZQ8q9aEz2sOwlUpvPmsr9nTCPyVSnqwVgJ4c828zB0E6HmyMfEymrpxZ5MlkI9tQJQPPe5bFz/70/f1RBiMHH+TVBeEFu8Imcmftvcc69F1WWYxksWFGpjr87CJ2XKbJSz9t0rCyd4OjpR6+y10XfkOomY/t7pQGDMMWc2OewEDE9UKkqux2Ry0RzUi9bFTdYGCQDvcrY9c+QadxqsUaCcXoCL3evD8mH2x7fGuwKnq6CPGpTuP2VRPnHx08VrSEGD5tV752sEX4JQNSMuR1EUuvyRAqRStNvMXytiCqDO0EpSJOoeL1RF+9ELewEDcFE74T8E40vNJjylq2j7LuMjfnS4azkXoCwCPi6Td/LsgKwd+UHd8fZAbY3UvBVqtkPBkvanJMfcUfuRkHKQcHn6UkTzXk0i/H6YEzSpZ5nL6aIpNgnk7BFw/OQNlMUXve13W4sc0gtI3E4OGeYX8w2LxJ932bvi6IkglgVoz8UfR4oc41FfZJ5vzOvG0reXQkkxs89PNVJu9EOT+DDGLE8boMfeIx+QXtZtp93iWPqZcjugl5zxGHuEkAEbp/UCpZ1AFMPr3w=
-
 matrix:
   fast_finish: true
   allow_failures:
   - env: EMBER_TRY_SCENARIO=ember-beta
   - env: EMBER_TRY_SCENARIO=ember-canary
-  - node_js: 'stable'
-
+  - node_js: stable
 before_install:
 - npm config set spin false
 - npm install -g coveralls pr-bumper@^3.7.0 ciena-devops@^1.0.0
-- $(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh
-
+- "$(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh"
 install:
-- $(npm root -g)/pr-bumper/.travis/maybe-install.sh
-
+- "$(npm root -g)/pr-bumper/.travis/maybe-install.sh"
 before_script:
-- "export DISPLAY=:99.0"
-- "sh -e /etc/init.d/xvfb start"
-- sleep 3 # give xvfb some time to start
-
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- sleep 3
 script:
-- $(npm root -g)/pr-bumper/.travis/maybe-test.sh
-- .travis/maybe-bump-version.sh
-
+- "$(npm root -g)/pr-bumper/.travis/maybe-test.sh"
+- ".travis/maybe-bump-version.sh"
 after_success:
-- .travis/maybe-publish-coverage.sh
-- .travis/maybe-publish-gh-pages.sh
-
+- ".travis/maybe-publish-coverage.sh"
+- ".travis/maybe-publish-gh-pages.sh"
 deploy:
   provider: npm
   email: npm.ciena@gmail.com
   skip_cleanup: true
   api_key:
-    secure: YAVDd2gnJqyC9N+2IwITWDMhbon32W/AuSJrj7knCT4jshCxeKwDga9xjMiC2H5RBjmQI4KI4oDHohtAiS6bHXKEpdrPuO9mZCdFcZWxjjZWL8IoI+QDWbr/FTYlHje+ShckmWlAdoFgd+dWFzooll1/xBDo3YNUm+8f2k6JdgfTJnQ2wSd8xkNRg0Tgek0UUm93b3ZaqFA3c4za8xqrYrrHju281ncPiJZm1YVf2T2ZcTV9GOMgNZccC61eMSqI2AsgqGdA/q3ZOqS80qPyoUV+OoKAlHWzoI5JFcKn153PM1HFY7KT55/rE0ZOnf71f1YhV/ivSLlbzJjuKqFh7HKIBonRMIVS3Uf/fHpkZvn9lF0TNDkyx3KLOkttqYFLlUUDNRs4igeNO9jmzdiyMDPOykc/ifSwOLIhwxI/pmWR3Q3o8vieVkKYLl0yWJKE8VTl9J5+XO2PQ/dp253nYlVOtKgN34a/INCnKIp1vXoXSedZhxTdVqzm4g+WIajIpP2ns0fAM2g+4QGC9NkeusDJC46p6Qh4q7sBy7ambVseI8FdyFAAao8J+TIl+nwUWNtBgKKJlBefQ5uqHlc9JQi8c+FBfAce5PfILRiD3UawRPVEwQ58SwwaV9gSrV5PMqilBlg/r5IefLmponCwYYVDiRf+1cGTWAAarXgvq+E=
+    secure: CJ6HoSiCYtvhx9sV2JSlYiN9ash3DEy+M/RbIrYtj6CI22ysMCUXCFnOUk23nCpSQLRxQ2CiSAujFnoQzuPc8fI3H6D+3RBaVjYhiezjJptfwMk3+v8clgdrizgUcv+IgIPvdwLcqpO9A+vdfKLruON0fsNmcuNrhXKXRuFGS6sqMlA6I5fyLQVo1k+UTqixf9K70cUeT0vL0Qv6rFNzjiVhNZ0xb+mfV0YaSmxrBsK18dD5EbJHOoo9ajMoXLT/XCl4siTOOiK7GimFTb3bSL0jvtKO3uhlXdXZJx2VKfUcM62scDBcgsKuXEqxFFDeOzWlsS4F7KmbSTFdnG1r39J55GWFGbFlYo/FPvj3Wf0KkIZy/ySpLhiSBehI/2G0WeKJw7ei8U1Ps92tcvRIfaxTWBnyZikbzwv9Fj/QxiHqYWo0z98IT5QMcggA1U9pXqg2EqmGPdvK3wzmi6gzEa9UKaSaVAVnX+fh86/paqLOluc8Ahyn0ITAdd5VA2JODMU8I37IpPhBLxzSK6yP+LfAooP8w8RikihRHaDDquMhc5vd/4h8vR9u/Db2BU9J756cIyBslRkBjPcbWNMFB/vRh4qm077guens/RJnhzvpdZDSkwTde8bnULFZ/6gsjqbIIQHmjympmCXKHMkwG0uVsEpNmilCGncgzoGUGcg=
   on:
     all_branches: true
     condition: "$EMBER_TRY_SCENARIO = 'ember-default'"
-    node: '8.6.0'
+    node: 8.6.0
     tags: true
-
 after_deploy:
-- $(npm root -g)/ciena-devops/scripts/slack/incoming-webhooks/send-message.sh
-
+- "$(npm root -g)/ciena-devops/scripts/slack/incoming-webhooks/send-message.sh"
 notifications:
   slack:
     secure: ZcvtHohzlkEeTDjNHq75//JGZzvFT7dJ0Cde8qRA2oebcKRZsRUnD9OXdr2LoGXisa7bQp6jKh2zzD2yG3IS4nJeYxv7MTYXva5hKGkjm3DUjl82Op8S3PlA4naiaPp9/vERWYFdbI8KQv3UleqgfxBR4F62qJGFu2BRTO/drLWyxchOsUbr3kSCd4TTMTn/UOH8SuIz2H3ydeGXR4kEjZyAdFfNftf+zw8TA+oi5GdT4SqHpVVXY9AD+EqJX3Y6NY/BNsdVynb3lsUQilaYGiHLvXTeke+GEZpfEfqq5GZC9xJoYD/2jO/ThYvfnTUm0dIuk684HWIphQZACb2wzvXI06f54hWJCiq3vycH/0+CFOGfd6tQtdbJCm+UcUXLbOq8KsOZp0ARVXYVUhDxyNCvyZeRqgpYOY9+mL61+DyoItbzMjvkt0xKkRmTVeeK92PkLQsfAQuW86nDFCQB1QJ3IOkK/KllrwY1MfYt3KCU4oAu114qSmEqf7ZDZj6Xx8XG5x7BuuZq6AvKXRPCX4JTFemBuix6F9aZStjCewJZHxgXZ/NT32MrdGBia/G9Gommn/vj3iTgiVyVfYqoH8r7UJ78hldl8kK7Q7jhgVTPrK0lyt6k+Ci0Ax76YfUpq6mtOWNqaa29nUCE1xEZPoh7KyovZDSRu8ePHGz+Mhs=
