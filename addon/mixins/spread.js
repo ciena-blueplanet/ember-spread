@@ -188,6 +188,68 @@ export default Mixin.create({
     return listener.target === this
   },
 
+  /**
+   * Reset local properties to undefined for each property in the spread hash to break the observer.
+   * Properties listed in the component's `concatenatedProperties` or `mergedProperties`
+   * are remain untouched.
+   *
+   * All other readOnly computed properties properties are being reset to undefined.
+   *
+   * Note: We're currently using the private Ember defineProperty function
+   * which is required to establish observer chains (accept computed properties)
+   *
+   * @param {object} spreadHash - the hash to remove
+   */
+  _resetSpreadProperties (spreadHash) {
+    const staticProperties = ['tagName', 'elementId']
+    const concatenatedProperties = this.get('concatenatedProperties') || makeArray()
+    const mergedProperties = this.get('mergedProperties') || makeArray()
+
+    keys(spreadHash).forEach(key => {
+      // We don't reset tagName, elementId, concatenatedProperties and
+      // mergedProperties as we won't support change them on the fly.
+      if (staticProperties.includes(key) ||
+        concatenatedProperties.includes(key) ||
+        mergedProperties.includes(key)
+      ) {
+        return
+      }
+
+      // As user has replaced/reset the spreadable property on source object, we are
+      // going to remove all registered computed properties.
+      defineProperty(this, key, undefined, undefined)
+    })
+  },
+
+  /**
+   * This function works the same as _defineSpreadProperties with leaving `staticProperties`,
+   * `concatenatedProperties` and `mergedProperties` untouched.
+   *
+   * Note: We're currently using the private Ember defineProperty function
+   * which is required to establish observer chains (accept computed properties)
+   *
+   * @param {string} spreadProperty - the name of the local property containing the hash
+   * @param {object} spreadHash - the hash object to spread
+   */
+  _redefineSpreadProperties (spreadProperty, spreadHash) {
+    const staticProperties = ['tagName', 'elementId']
+    const concatenatedProperties = this.get('concatenatedProperties') || makeArray()
+    const mergedProperties = this.get('mergedProperties') || makeArray()
+
+    keys(spreadHash).forEach(key => {
+      // We won't support changing tagName, elementId, concatenatedProperties and
+      // mergedProperties on the fly.
+      if (staticProperties.includes(key) ||
+        concatenatedProperties.includes(key) ||
+        mergedProperties.includes(key)
+      ) {
+        return
+      }
+
+      defineProperty(this, key, computed.readOnly(`${spreadProperty}.${key}`))
+    })
+  },
+
   // == Ember Lifecycle Hooks =================================================
 
   init () {
@@ -203,6 +265,9 @@ export default Mixin.create({
     // Spread the properties in the hash onto the local object
     this._defineSpreadProperties(spreadProperty, spreadableHash)
 
+    // Cache the spreadable hash so we can look it up later for cleanup.
+    this.set('_spreadableHash', spreadableHash)
+
     // The above spread only works on properties that were defined on the
     // hash when it was passed to this context.  However, if we add a listener
     // to the original object hash in the original context then we can determine
@@ -214,6 +279,41 @@ export default Mixin.create({
 
     // Define a listener for any new properties on the source property
     this._defineSourceListener(sourceObject, sourceProperty, spreadProperty)
+
+    this._watchSpreadPropertiesUpdate(spreadProperty)
+  },
+
+  /**
+   * Establish an observer that will notify the spread system whenever the source spreadable property
+   * is being replaced entirely. On the event trigger, the callback will go through all existing spread
+   * property and stops any observers attached to them. Then new read only computed properties and
+   * unknownProperty listeners will be created based on the new/replaced source property.
+   *
+   * @param {string} spreadProperty - the name of the local property containing the hash
+   */
+  _watchSpreadPropertiesUpdate (spreadProperty) {
+    const {sourceObject, sourceProperty} = this._getSourceContext()
+
+    this.addObserver(`spreadOptions.source.object.${sourceProperty}`, function () {
+      const spreadableHash = this.get(`spreadOptions.source.object.${sourceProperty}`)
+
+      this._resetSpreadProperties(this.get('_spreadableHash'))
+
+      if (isNone(spreadableHash)) {
+        return
+      }
+
+      // Redefine the spread properties based on the new spreadableHash.
+      this._redefineSpreadProperties(spreadProperty, spreadableHash)
+
+      // Cache the spreadable hash so we can look it up later for cleanup.
+      this.set('_spreadableHash', spreadableHash)
+
+      // A not about removing existing UnknownProperty listeners.
+      // The original listeners are saved on the original source property object, as the object
+      // is completely gone now, we shouldn't worry about removing these listeners.
+      this._defineSourceListener(sourceObject, sourceProperty, spreadProperty)
+    })
   },
 
   willDestroy () {
