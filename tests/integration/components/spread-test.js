@@ -269,7 +269,6 @@ describe(test.label, function () {
 
     describe('and the component is destroyed', function () {
       beforeEach(function () {
-        debugger
         this.setProperties({
           options: Ember.Object.create({}),
           condition: true
