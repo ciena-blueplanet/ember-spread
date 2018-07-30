@@ -11,6 +11,8 @@ import {PropTypes} from 'ember-prop-types'
 
 // Constants
 const SPREAD_PROPERTY = 'options'
+// Reserved keys used by spread on source property
+const EXCLUDED_PROPERTIES = ['setUnknownProperty', '_spreadListeners']
 
 export default Mixin.create({
 
@@ -77,7 +79,7 @@ export default Mixin.create({
 
         // For each listening target object (registered via spread options)
         // spread the new property onto the target object
-        this.get('_spreadListeners').forEach(listener => {
+        this._spreadListeners.forEach(listener => {
           if (typeOf(value) === 'function') {
             listener.target.set(key, value)
           } else {
@@ -125,6 +127,10 @@ export default Mixin.create({
     // NOTE: disabled linting rule to stay as close as possible to Ember core's code
     // eslint-disable-next-line complexity
     keys(spreadableHash).forEach((key) => {
+      if (EXCLUDED_PROPERTIES.includes(key)) {
+        return
+      }
+
       const value = spreadableHash[key]
 
       if (staticProperties.includes(key) || typeOf(value) === 'function') {
@@ -245,6 +251,10 @@ export default Mixin.create({
     }
 
     keys(spreadHash).forEach(key => {
+      if (EXCLUDED_PROPERTIES.includes(key)) {
+        return
+      }
+
       // We won't support changing tagName, elementId, concatenatedProperties and
       // mergedProperties on the fly.
       if (staticProperties.includes(key) ||
