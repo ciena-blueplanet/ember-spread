@@ -304,7 +304,6 @@ export default Mixin.create({
     const {sourceObject, sourceProperty} = this._getSourceContext()
 
     this.addObserver(`spreadOptions.source.object.${sourceProperty}`, function () {
-      debugger
       const spreadableHash = this.get(`spreadOptions.source.object.${sourceProperty}`)
 
       this._resetSpreadProperties(this.get('_spreadableHash'))
