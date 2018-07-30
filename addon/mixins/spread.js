@@ -77,7 +77,7 @@ export default Mixin.create({
 
         // For each listening target object (registered via spread options)
         // spread the new property onto the target object
-        this._spreadListeners.forEach(listener => {
+        this.get('_spreadListeners').forEach(listener => {
           if (typeOf(value) === 'function') {
             listener.target.set(key, value)
           } else {
@@ -304,6 +304,7 @@ export default Mixin.create({
     const {sourceObject, sourceProperty} = this._getSourceContext()
 
     this.addObserver(`spreadOptions.source.object.${sourceProperty}`, function () {
+      debugger
       const spreadableHash = this.get(`spreadOptions.source.object.${sourceProperty}`)
 
       this._resetSpreadProperties(this.get('_spreadableHash'))
