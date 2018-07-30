@@ -205,6 +205,10 @@ export default Mixin.create({
     const concatenatedProperties = this.get('concatenatedProperties') || makeArray()
     const mergedProperties = this.get('mergedProperties') || makeArray()
 
+    if (isNone(spreadHash)) {
+      return
+    }
+
     keys(spreadHash).forEach(key => {
       // We don't reset tagName, elementId, concatenatedProperties and
       // mergedProperties as we won't support change them on the fly.
@@ -236,6 +240,10 @@ export default Mixin.create({
     const concatenatedProperties = this.get('concatenatedProperties') || makeArray()
     const mergedProperties = this.get('mergedProperties') || makeArray()
 
+    if (isNone(spreadHash)) {
+      return
+    }
+
     keys(spreadHash).forEach(key => {
       // We won't support changing tagName, elementId, concatenatedProperties and
       // mergedProperties on the fly.
@@ -258,6 +266,9 @@ export default Mixin.create({
     // Get the spreadable hash
     const spreadProperty = this.get('spreadOptions.property') || SPREAD_PROPERTY
     const spreadableHash = this.get(spreadProperty)
+
+    this._watchSpreadPropertiesUpdate(spreadProperty)
+
     if (isNone(spreadableHash)) {
       return
     }
@@ -279,8 +290,6 @@ export default Mixin.create({
 
     // Define a listener for any new properties on the source property
     this._defineSourceListener(sourceObject, sourceProperty, spreadProperty)
-
-    this._watchSpreadPropertiesUpdate(spreadProperty)
   },
 
   /**
