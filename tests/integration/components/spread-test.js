@@ -294,6 +294,7 @@ describe(test.label, function () {
 
     describe('and source property is replaced by an empty object', function () {
       beforeEach(function () {
+<<<<<<< HEAD
         this.set('options', Ember.Object.create({}))
       })
 
@@ -306,6 +307,11 @@ describe(test.label, function () {
           this.set('options', Ember.Object.create({
             property: 'foo'
           }))
+=======
+        this.setProperties({
+          options: Ember.Object.create({}),
+          condition: true
+>>>>>>> parent of c97687e... remove debugger
         })
 
         it('should update the local property', function () {

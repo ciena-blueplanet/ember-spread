@@ -314,6 +314,7 @@ export default Mixin.create({
     const {sourceObject, sourceProperty} = this._getSourceContext()
 
     this.addObserver(`spreadOptions.source.object.${sourceProperty}`, function () {
+      debugger
       const spreadableHash = this.get(`spreadOptions.source.object.${sourceProperty}`)
 
       // This block is to prevent the observer from firing twice on single property change.

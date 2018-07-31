@@ -12,10 +12,10 @@
     </div>
     <div class='demo'>
       {{! BEGIN-SNIPPET normal }}
-      {{!-- {{normal-dot
+      {{normal-dot
         size=5
         speak='Punctuation, huzzah!'
-      }} --}}
+      }}
       {{! END-SNIPPET }}
     </div>
   </div>
@@ -26,10 +26,10 @@
   </p>
 
   <div class='example'>
-    {{!-- {{normal-dot
+    {{normal-dot
       size=5
       speak='Pointy?'
-    }} --}}
+    }}
     <span style='width: 40px;' />
     {{were-triangle
       size=20
@@ -61,7 +61,7 @@
     </div>
     <div class='demo'>
       {{! BEGIN-SNIPPET dot-options }}
-      {{!-- {{normal-dot options=dotOptions}} --}}
+      {{normal-dot options=dotOptions}}
       {{! END-SNIPPET }}
     </div>
   </div>
@@ -78,7 +78,6 @@
     </div>
     <div class='demo'>
       {{! BEGIN-SNIPPET were-dynamic }}
-      111
       {{component wereShape
         options=wereOptions
         spreadOptions=(hash
@@ -88,10 +87,6 @@
           )
         )
       }}
-      222
-      <button {{action (action 'replaceWereOptions')}}>replaceWereOptions</button>
-      <button {{action (action 'updateWereOptions')}}>updateWereOptions</button>
-      <button {{action (action 'setUndefined')}}>setUndefined</button>
       {{! END-SNIPPET }}
     </div>
   </div>

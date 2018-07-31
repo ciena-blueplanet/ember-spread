@@ -11,12 +11,9 @@ export default Controller.extend({
 
   // BEGIN-SNIPPET were-options
   wereShape: 'normal-dot',
-  wereOptions: undefined,
-
-  newWereOptions: Ember.Object.create({
-    size: 80,
-    color: 'red',
-    speak: '!!!Ok, this is getting ridiculous...'
+  wereOptions: Ember.Object.create({
+    size: 40,
+    speak: 'Ok, this is getting ridiculous...'
   }),
   // END-SNIPPET
 
@@ -85,22 +82,7 @@ export default Controller.extend({
     // BEGIN-SNIPPET more-noises
     moreNoises () {
       this.set('noises', ['Snarf', 'snuffle'])
-    },
-    // END-SNIPPET
-    updateWereOptions () {
-      this.set('wereOptions.color', 'red')
-    },
-
-    replaceWereOptions () {
-      this.set('wereOptions', Ember.Object.create({
-        size: 80,
-        color: 'green',
-        speak: '!!!Ok, this is getting ridiculous...'
-      }))
-    },
-
-    setUndefined () {
-      this.set('wereOptions', undefined)
     }
+    // END-SNIPPET
   }
 })
