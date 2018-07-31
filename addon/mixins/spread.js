@@ -316,7 +316,15 @@ export default Mixin.create({
     this.addObserver(`spreadOptions.source.object.${sourceProperty}`, function () {
       const spreadableHash = this.get(`spreadOptions.source.object.${sourceProperty}`)
 
+      // This block is to prevent the observer from firing twice on single property change.
+      if (this.get('_spreadableHash') === spreadableHash) {
+        return
+      }
+
       this._resetSpreadProperties(this.get('_spreadableHash'))
+
+      // Cache the spreadable hash so we can look it up later for cleanup.
+      this.set('_spreadableHash', spreadableHash)
 
       if (isNone(spreadableHash)) {
         return
@@ -324,9 +332,6 @@ export default Mixin.create({
 
       // Redefine the spread properties based on the new spreadableHash.
       this._redefineSpreadProperties(spreadProperty, spreadableHash)
-
-      // Cache the spreadable hash so we can look it up later for cleanup.
-      this.set('_spreadableHash', spreadableHash)
 
       // A not about removing existing UnknownProperty listeners.
       // The original listeners are saved on the original source property object, as the object
