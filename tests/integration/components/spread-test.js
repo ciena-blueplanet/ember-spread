@@ -419,7 +419,6 @@ describe(test.label, function () {
 
       it('should update the local property', function () {
         expect($hook('spreadAnotherProperty').text().trim()).to.equal('foo')
-        expect($hook('spreadProperty').text().trim()).to.equal('')
       })
     })
 
