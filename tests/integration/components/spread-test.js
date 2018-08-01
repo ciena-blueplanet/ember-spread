@@ -5,7 +5,7 @@ import {$hook, initialize as initializeHook} from 'ember-hook'
 import SpreadMixin from 'ember-spread'
 import {integration} from 'ember-test-utils/test-support/setup-component-test'
 import hbs from 'htmlbars-inline-precompile'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 
 import sinon from 'sinon'
 
@@ -18,6 +18,9 @@ const SpreadComponent = Component.extend(SpreadMixin, {
   layout: hbs`
     <div data-test={{hook 'spreadProperty'}}>
       {{property}}
+    </div>
+    <div data-test={{hook 'spreadAnotherProperty'}}>
+      {{anotherProperty}}
     </div>
     <div data-test={{hook 'mergedProperty'}}>
       {{mergedPropertyJson}}
@@ -266,43 +269,194 @@ describe(test.label, function () {
         })
       })
     })
+  })
 
-    describe('and the component is destroyed', function () {
-      beforeEach(function () {
-        this.setProperties({
-          options: Ember.Object.create({}),
-          condition: true
-        })
+  describe('when providing source binding and source property is empty object', function () {
+    beforeEach(function () {
+      this.set('options', Ember.Object.create({}))
 
-        this.render(hbs`
-          {{spread-test
-            options=options
-            spreadOptions=(hash
-              source=(hash
-                object=this
-                property='options'
-              )
+      this.render(hbs`
+        {{spread-test
+          options=options
+          spreadOptions=(hash
+            source=(hash
+              object=this
+              property='options'
             )
-          }}
+          )
+        }}
+      `)
+    })
 
-          {{#if condition}}
-            {{spread-test
-              options=options
-              spreadOptions=(hash
-                source=(hash
-                  object=this
-                  property='options'
-                )
-              )
-            }}
-          {{/if}}
-        `)
+    afterEach(function () {
+      this.set('options', undefined)
+    })
+
+    describe('and source property is replaced by an empty object', function () {
+      beforeEach(function () {
+        this.set('options', Ember.Object.create({}))
       })
 
-      it('should clean up the source property listener', function () {
-        expect(this.get('options._spreadListeners')).to.have.lengthOf(2)
-        this.set('condition', false)
+      it('should still have one property listener', function () {
         expect(this.get('options._spreadListeners')).to.have.lengthOf(1)
+      })
+
+      describe('and source property is replaced by a new object', function () {
+        beforeEach(function () {
+          this.set('options', Ember.Object.create({
+            property: 'foo'
+          }))
+        })
+
+        it('should update the local property', function () {
+          expect($hook('spreadProperty').text().trim()).to.equal('foo')
+        })
+      })
+    })
+
+    describe('and source property is replaced by a new object', function () {
+      beforeEach(function () {
+        this.set('options', Ember.Object.create({
+          property: 'foo'
+        }))
+      })
+
+      it('should update the local property', function () {
+        expect($hook('spreadProperty').text().trim()).to.equal('foo')
+      })
+    })
+  })
+
+  describe('when providing source binding and source property is undefined', function () {
+    beforeEach(function () {
+      this.set('options', undefined)
+
+      this.render(hbs`
+        {{spread-test
+          options=options
+          spreadOptions=(hash
+            source=(hash
+              object=this
+              property='options'
+            )
+          )
+        }}
+      `)
+    })
+
+    afterEach(function () {
+      this.set('options', undefined)
+    })
+
+    describe('and source property is replaced by an empty object', function () {
+      beforeEach(function () {
+        this.set('options', Ember.Object.create({}))
+      })
+
+      it('should still have one property listener', function () {
+        expect(this.get('options._spreadListeners')).to.have.lengthOf(1)
+      })
+    })
+
+    describe('and source property is replaced by an new object', function () {
+      beforeEach(function () {
+        this.set('options', Ember.Object.create({
+          property: 'foo'
+        }))
+      })
+
+      it('should bind listener to source property', function () {
+        expect($hook('spreadProperty').text().trim()).to.equal('foo')
+      })
+    })
+  })
+
+  describe('when providing source binding and source property is an object', function () {
+    beforeEach(function () {
+      this.set('options', Ember.Object.create({
+        property: 'foo'
+      }))
+
+      this.render(hbs`
+        {{spread-test
+          options=options
+          spreadOptions=(hash
+            source=(hash
+              object=this
+              property='options'
+            )
+          )
+        }}
+      `)
+    })
+
+    afterEach(function () {
+      this.set('options', undefined)
+    })
+
+    it('should render the local property', function () {
+      expect($hook('spreadProperty').text().trim()).to.equal('foo')
+    })
+
+    describe('and source property is replaced by a new object with old key', function () {
+      beforeEach(function () {
+        this.set('options', Ember.Object.create({
+          property: 'bar'
+        }))
+      })
+
+      it('should update the local property', function () {
+        expect($hook('spreadProperty').text().trim()).to.equal('bar')
+      })
+    })
+
+    describe('and source property is replaced by a new object with out old key', function () {
+      beforeEach(function () {
+        this.set('options', Ember.Object.create({
+          anotherProperty: 'foo'
+        }))
+      })
+
+      it('should update the local property', function () {
+        expect($hook('spreadAnotherProperty').text().trim()).to.equal('foo')
+      })
+    })
+
+    describe('and source property is replaced by a new object with both old key and new key', function () {
+      beforeEach(function () {
+        this.set('options', Ember.Object.create({
+          anotherProperty: 'foo',
+          property: 'bar'
+        }))
+      })
+
+      it('should render proper value for property and anotherProperty', function () {
+        expect($hook('spreadAnotherProperty').text().trim()).to.equal('foo')
+        expect($hook('spreadProperty').text().trim()).to.equal('bar')
+      })
+    })
+
+    describe('and source property is replaced by undefined', function () {
+      beforeEach(function () {
+        this.set('options', undefined)
+      })
+
+      it('should remove listener and watcher on source property', function () {
+        expect(this.get('options')).to.equal(undefined)
+      })
+
+      describe('and source property is replaced by a new object', function () {
+        beforeEach(function () {
+          this.set('options', Ember.Object.create({
+            anotherProperty: 'foo',
+            property: 'bar'
+          }))
+        })
+
+        it('should render proper value for property and anotherProperty', function () {
+          expect($hook('spreadAnotherProperty').text().trim()).to.equal('foo')
+          expect($hook('spreadProperty').text().trim()).to.equal('bar')
+        })
       })
     })
   })
