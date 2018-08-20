@@ -1,6 +1,6 @@
+import Component from '@ember/component'
+import EmberObject, {computed} from '@ember/object'
 import {expect} from 'chai'
-import Ember from 'ember'
-const {Component, computed} = Ember
 import {$hook, initialize as initializeHook} from 'ember-hook'
 import SpreadMixin from 'ember-spread'
 import {integration} from 'ember-test-utils/test-support/setup-component-test'
@@ -169,7 +169,7 @@ describe(test.label, function () {
   describe('when providing a source binding', function () {
     describe('and using the default (options) spread property', function () {
       beforeEach(function () {
-        this.set('options', Ember.Object.create({}))
+        this.set('options', EmberObject.create({}))
 
         this.render(hbs`
           {{spread-test
@@ -220,7 +220,7 @@ describe(test.label, function () {
 
     describe('and using a custom spread property', function () {
       beforeEach(function () {
-        this.set('options', Ember.Object.create({}))
+        this.set('options', EmberObject.create({}))
 
         this.render(hbs`
           {{spread-test
@@ -273,7 +273,7 @@ describe(test.label, function () {
 
   describe('when providing source binding and source property is empty object', function () {
     beforeEach(function () {
-      this.set('options', Ember.Object.create({}))
+      this.set('options', EmberObject.create({}))
 
       this.render(hbs`
         {{spread-test
@@ -294,7 +294,7 @@ describe(test.label, function () {
 
     describe('and source property is replaced by an empty object', function () {
       beforeEach(function () {
-        this.set('options', Ember.Object.create({}))
+        this.set('options', EmberObject.create({}))
       })
 
       it('should still have one property listener', function () {
@@ -303,7 +303,7 @@ describe(test.label, function () {
 
       describe('and source property is replaced by a new object', function () {
         beforeEach(function () {
-          this.set('options', Ember.Object.create({
+          this.set('options', EmberObject.create({
             property: 'foo'
           }))
         })
@@ -316,7 +316,7 @@ describe(test.label, function () {
 
     describe('and source property is replaced by a new object', function () {
       beforeEach(function () {
-        this.set('options', Ember.Object.create({
+        this.set('options', EmberObject.create({
           property: 'foo'
         }))
       })
@@ -350,7 +350,7 @@ describe(test.label, function () {
 
     describe('and source property is replaced by an empty object', function () {
       beforeEach(function () {
-        this.set('options', Ember.Object.create({}))
+        this.set('options', EmberObject.create({}))
       })
 
       it('should still have one property listener', function () {
@@ -360,7 +360,7 @@ describe(test.label, function () {
 
     describe('and source property is replaced by an new object', function () {
       beforeEach(function () {
-        this.set('options', Ember.Object.create({
+        this.set('options', EmberObject.create({
           property: 'foo'
         }))
       })
@@ -373,7 +373,7 @@ describe(test.label, function () {
 
   describe('when providing source binding and source property is an object', function () {
     beforeEach(function () {
-      this.set('options', Ember.Object.create({
+      this.set('options', EmberObject.create({
         property: 'foo'
       }))
 
@@ -400,7 +400,7 @@ describe(test.label, function () {
 
     describe('and source property is replaced by a new object with old key', function () {
       beforeEach(function () {
-        this.set('options', Ember.Object.create({
+        this.set('options', EmberObject.create({
           property: 'bar'
         }))
       })
@@ -412,7 +412,7 @@ describe(test.label, function () {
 
     describe('and source property is replaced by a new object with out old key', function () {
       beforeEach(function () {
-        this.set('options', Ember.Object.create({
+        this.set('options', EmberObject.create({
           anotherProperty: 'foo'
         }))
       })
@@ -424,7 +424,7 @@ describe(test.label, function () {
 
     describe('and source property is replaced by a new object with both old key and new key', function () {
       beforeEach(function () {
-        this.set('options', Ember.Object.create({
+        this.set('options', EmberObject.create({
           anotherProperty: 'foo',
           property: 'bar'
         }))
@@ -447,7 +447,7 @@ describe(test.label, function () {
 
       describe('and source property is replaced by a new object', function () {
         beforeEach(function () {
-          this.set('options', Ember.Object.create({
+          this.set('options', EmberObject.create({
             anotherProperty: 'foo',
             property: 'bar'
           }))
