@@ -51,6 +51,7 @@
     "ember-sinon": "^0.7.0",
     "ember-source": "~3.3.1",
     "ember-test-utils": "^8.1.1",
+    "ember-try": "1.0.0",
     "loader.js": "^4.2.3",
     "sinon-chai": "^2.14.0"
   },

@@ -50,6 +50,22 @@ module.exports = {
       }
     },
     {
+      name: 'ember-2.12',
+      npm: {
+        devDependencies: {
+          'ember-source': '2.12.3'
+        }
+      }
+    },
+    {
+      name: 'ember-default',
+      npm: {
+        devDependencies: {
+          'ember-source': '3.3.1'
+        }
+      }
+    },
+    {
       name: 'ember-release',
       bower: {
         dependencies: {
