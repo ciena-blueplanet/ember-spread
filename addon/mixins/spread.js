@@ -4,8 +4,13 @@
  * Spreads the properties from a source object against the root level of the local object
  */
 
-import Ember from 'ember'
-const {Mixin, assert, computed, defineProperty, get, isArray, isNone, makeArray, typeOf} = Ember
+import {isArray, makeArray} from '@ember/array'
+
+import {assert} from '@ember/debug'
+import {defineProperty, get} from '@ember/object'
+import {readOnly} from '@ember/object/computed'
+import Mixin from '@ember/object/mixin'
+import {isNone, typeOf} from '@ember/utils'
 const {assign, keys} = Object
 import {PropTypes} from 'ember-prop-types'
 
@@ -31,7 +36,10 @@ export default Mixin.create({
     spreadOptions: PropTypes.shape({
       property: PropTypes.string,
       source: PropTypes.shape({
-        object: PropTypes.EmberObject.isRequired,
+        object: PropTypes.oneOfType([
+          PropTypes.EmberObject,
+          PropTypes.object
+        ]),
         property: PropTypes.string.isRequired
       })
     })
@@ -84,7 +92,7 @@ export default Mixin.create({
             listener.target.set(key, value)
           } else {
             defineProperty(listener.target, key,
-              computed.readOnly(`${listener.targetProperty}.${key}`)
+              readOnly(`${listener.targetProperty}.${key}`)
             )
           }
         })
@@ -170,7 +178,7 @@ export default Mixin.create({
         return
       }
 
-      defineProperty(this, key, computed.readOnly(`${spreadProperty}.${key}`))
+      defineProperty(this, key, readOnly(`${spreadProperty}.${key}`))
     })
   },
 
@@ -264,7 +272,7 @@ export default Mixin.create({
         return
       }
 
-      defineProperty(this, key, computed.readOnly(`${spreadProperty}.${key}`))
+      defineProperty(this, key, readOnly(`${spreadProperty}.${key}`))
     })
   },
 
