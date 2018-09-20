@@ -1,3 +1,18 @@
+# 6.0.0 (2018-09-20)
+
+Dependencies:
+* **Updated** core dependencies to be compatible with ember 3.3.
+* **Updated** third party dependencies to be compatible with ember 3.3.
+
+Addon:
+* **Updated**  Ember core module import paths to match Ember.js new Modules API.
+
+Testing:
+* **Removed** `helpers/resolver.js`, `helpers/start-app.js`, `helpers/destroy-app.js` as they are not needed with Ember new testing API.
+* **Updated** `test-helper.js` to allign with Ember's new testing API.
+* **Added** Ember 3.3 senario to ember-try config.
+
+
 # 5.1.0 (2018-08-01)
 - Added support to the case when the source spreadable property gets replaced entirely.
 
