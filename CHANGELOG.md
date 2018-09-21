@@ -1,3 +1,6 @@
+# 6.0.1 (2018-09-21)
+* **Consuming** `ember-prop-types: 8.0.0`
+
 # 6.0.0 (2018-09-20)
 
 Dependencies:
