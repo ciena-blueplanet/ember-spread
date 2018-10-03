@@ -28,7 +28,7 @@ const SpreadComponent = Component.extend(SpreadMixin, {
   `,
   mergedProperty: {baseValue: true},
   mergedPropertyJson: computed('mergedProperty', function () {
-    return JSON.stringify(this.get('mergedProperty'))
+    return JSON.stringify(this.mergedProperty);
   }).readOnly(),
 
   // == Actions ===============================================================
@@ -442,7 +442,7 @@ describe(test.label, function () {
       })
 
       it('should remove listener and watcher on source property', function () {
-        expect(this.get('options')).to.equal(undefined)
+        expect(this.options).to.equal(undefined)
       })
 
       describe('and source property is replaced by a new object', function () {

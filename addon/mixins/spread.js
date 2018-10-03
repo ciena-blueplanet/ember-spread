@@ -129,8 +129,8 @@ export default Mixin.create({
       ['instance', 'object'].includes(typeOf(spreadableHash))
     )
 
-    const concatenatedProperties = this.get('concatenatedProperties')
-    const mergedProperties = this.get('mergedProperties')
+    const concatenatedProperties = this.concatenatedProperties
+    const mergedProperties = this.mergedProperties
 
     // NOTE: disabled linting rule to stay as close as possible to Ember core's code
     // eslint-disable-next-line complexity
@@ -216,8 +216,8 @@ export default Mixin.create({
    */
   _resetSpreadProperties (spreadHash) {
     const staticProperties = ['tagName', 'elementId']
-    const concatenatedProperties = this.get('concatenatedProperties') || makeArray()
-    const mergedProperties = this.get('mergedProperties') || makeArray()
+    const concatenatedProperties = this.concatenatedProperties || makeArray()
+    const mergedProperties = this.mergedProperties || makeArray()
 
     if (isNone(spreadHash)) {
       return
@@ -251,8 +251,8 @@ export default Mixin.create({
    */
   _redefineSpreadProperties (spreadProperty, spreadHash) {
     const staticProperties = ['tagName', 'elementId']
-    const concatenatedProperties = this.get('concatenatedProperties') || makeArray()
-    const mergedProperties = this.get('mergedProperties') || makeArray()
+    const concatenatedProperties = this.concatenatedProperties || makeArray()
+    const mergedProperties = this.mergedProperties || makeArray()
 
     if (isNone(spreadHash)) {
       return
@@ -325,11 +325,11 @@ export default Mixin.create({
       const spreadableHash = this.get(`spreadOptions.source.object.${sourceProperty}`)
 
       // This block is to prevent the observer from firing twice on single property change.
-      if (this.get('_spreadableHash') === spreadableHash) {
+      if (this._spreadableHash === spreadableHash) {
         return
       }
 
-      this._resetSpreadProperties(this.get('_spreadableHash'))
+      this._resetSpreadProperties(this._spreadableHash)
 
       // Cache the spreadable hash so we can look it up later for cleanup.
       this.set('_spreadableHash', spreadableHash)
