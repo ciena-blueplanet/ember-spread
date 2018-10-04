@@ -1,3 +1,7 @@
+# 7.0.0 (2018-10-04)
+
+* Run es5 getter codemod
+
 # 6.0.1 (2018-09-21)
 * **Consuming** `ember-prop-types: 8.0.0`
 
