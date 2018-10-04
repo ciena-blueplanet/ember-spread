@@ -21,7 +21,7 @@ export default Controller.extend({
   noises: ['Grunt', 'growl'],
   verbalizedNoises: computed('noises.[]', function () {
     let verbalizedNoises = ''
-    this.get('noises').forEach((noise) => {
+    this.noises.forEach((noise) => {
       verbalizedNoises = verbalizedNoises.concat(`${noise}...`)
     })
     return verbalizedNoises
@@ -30,7 +30,7 @@ export default Controller.extend({
     return {
       color: 'red',
       size: 60,
-      speak: this.get('verbalizedNoises'),
+      speak: this.verbalizedNoises,
       onClick: this.actions.moreNoises.bind(this)
     }
   }).readOnly(),
@@ -58,7 +58,7 @@ export default Controller.extend({
     // END-SNIPPET
 
     haunt () {
-      if (this.get('hauntShape') === 'were-triangle') {
+      if (this.hauntShape === 'were-triangle') {
         this.set('hauntShape', 'normal-dot')
         this.set('hauntOptions.speak', null)
       } else {
@@ -69,7 +69,7 @@ export default Controller.extend({
 
     // BEGIN-SNIPPET transform
     transform () {
-      if (this.get('wereShape') === 'were-triangle') {
+      if (this.wereShape === 'were-triangle') {
         this.set('wereShape', 'normal-dot')
         this.set('wereOptions.speak', '...and when did I change color?')
       } else {
