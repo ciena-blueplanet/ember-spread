@@ -11,6 +11,6 @@ export default Component.extend(SpreadMixin, {
   layout,
 
   canvasSize: computed('size', function () {
-    return Number(this.size) * 2;
+    return Number(this.size) * 2
   }).readOnly()
 })

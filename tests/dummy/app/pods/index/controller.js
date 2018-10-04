@@ -32,7 +32,7 @@ export default Controller.extend({
       size: 60,
       speak: this.verbalizedNoises,
       onClick: this.actions.moreNoises.bind(this)
-    };
+    }
   }).readOnly(),
   // END-SNIPPET
 

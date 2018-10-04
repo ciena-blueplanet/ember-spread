@@ -28,7 +28,7 @@ const SpreadComponent = Component.extend(SpreadMixin, {
   `,
   mergedProperty: {baseValue: true},
   mergedPropertyJson: computed('mergedProperty', function () {
-    return JSON.stringify(this.mergedProperty);
+    return JSON.stringify(this.mergedProperty)
   }).readOnly(),
 
   // == Actions ===============================================================
