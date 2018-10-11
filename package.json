@@ -48,7 +48,7 @@
     "ember-resolver": "^4.0.0",
     "ember-sinon": "^0.7.0",
     "ember-source": "~3.3.1",
-    "ember-test-utils": "^8.1.1",
+    "ember-test-utils": "^10.0.1",
     "ember-try": "1.0.0",
     "loader.js": "^4.2.3",
     "sinon-chai": "^2.14.0"
@@ -58,7 +58,7 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^6.6.0",
-    "ember-prop-types": "^8.0.0"
+    "ember-prop-types": "ciena-blueplanet/ember-prop-types#4f3b6dd112d4471be3d7dfd6b3e6e5f3b8440129"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
