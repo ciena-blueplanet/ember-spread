@@ -58,7 +58,7 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^6.6.0",
-    "ember-prop-types": "^9.0.2"
+    "ember-prop-types": "ciena-blueplanet/ember-prop-types#4f3b6dd112d4471be3d7dfd6b3e6e5f3b8440129"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

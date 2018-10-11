@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-- 10.7.0
+- 8.6.0
 addons:
   apt:
     sources:
@@ -58,7 +58,7 @@ deploy:
   on:
     all_branches: true
     condition: "$EMBER_TRY_SCENARIO = 'ember-default'"
-    node: 10.7.0
+    node: 8.6.0
     tags: true
 after_deploy:
 - "$(npm root -g)/ciena-devops/scripts/slack/incoming-webhooks/send-message.sh"
