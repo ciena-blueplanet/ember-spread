@@ -1,3 +1,8 @@
+# 7.0.1 (2018-10-12)
+* Update Travis to use latest node
+* Update dependencies
+
+
 # 7.0.0 (2018-10-04)
 
 * Run es5 getter codemod
