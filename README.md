@@ -107,18 +107,3 @@ Template instance
   )
 }}
 ```
-
-* If you need completely dynamic properties (added to the hash after instantiation) this can be accomplished
-  by providing a source object and property to observe for property additions
-
-```
-{{component-foo
-  options=foo
-  spreadOptions=(hash
-    source=(hash
-      object=this
-      property='foo'
-    )
-  )
-}}
-```
