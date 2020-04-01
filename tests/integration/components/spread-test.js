@@ -305,6 +305,34 @@ describe(test.label, function () {
         })
       })
     })
+
+    describe('and using a custom spread object property', function () {
+      beforeEach(function () {
+        this.setProperties({
+          options: EmberObject.create({}),
+          otherOptions: {
+            property: 'Superman'
+          }
+        })
+
+        this.render(hbs`
+          {{spread-test
+            foo=otherOptions
+            spreadOptions=(hash
+              property='foo'
+              source=(hash
+                object=this
+                property='otherOptions'
+              )
+            )
+          }}
+        `)
+      })
+
+      it('should render correct value', function () {
+        expect($hook('spreadProperty').text().trim()).to.equal('Superman')
+      })
+    })
   })
 
   describe('when providing source binding and source property is empty object', function () {

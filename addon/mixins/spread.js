@@ -119,7 +119,6 @@ export default Mixin.create({
         this.notifyPropertyChange(`${key}`)
         return
       }
-
       defineProperty(this, key, readOnly(`${spreadProperty}.${key}`))
       this.notifyPropertyChange(`${key}`)
     })
@@ -166,44 +165,61 @@ export default Mixin.create({
   // == Ember Lifecycle Hooks =================================================
   init () {
     this._super(...arguments)
-
     const {propertyPath, spreadSource} = this._getSpreadSource()
     if (spreadSource) {
       const spreadProperties = new Set(Object.keys(spreadSource))
       this.set('_spreadProperties', spreadProperties)
-      this._defineSpreadProperties(propertyPath, spreadSource)
       this._addSetUnsupportedProperty(propertyPath)
+      this._defineSpreadProperties(propertyPath, spreadSource)
     }
 
     this.addObserver(propertyPath, this, this._sourceChangeObserverHandler)
   },
 
+  /**
+   * return an object that has the source object that needs to be spread onto current
+   * component and the path to the source relative to the current object.
+   * @returns {{spreadSource: object, propertyPath: string}} a hash with spread source reference and its path.
+   * @private
+   */
   _getSpreadSource () {
     // Get the source of  spreadable hash, can be either
     // this.options (default) OR
     // this.${spreadOptions.property} (custom)
-    // spreadOptions.source.object.options (with dynamic properties)
-    let spreadProperty = this.get('spreadOptions.property') || SPREAD_PROPERTY
+    // spreadOptions.source.object.${spreadOptions.source.property} (with dynamic properties)
+    let propertyPath = this.get('spreadOptions.property') || SPREAD_PROPERTY
     if (this.get('spreadOptions.source.object')) {
-      spreadProperty = 'spreadOptions.source.object.options'
+      const pathSuffix = this.get('spreadOptions.source.property') || SPREAD_PROPERTY
+      propertyPath = `spreadOptions.source.object.${pathSuffix}`
     }
     return {
-      propertyPath: spreadProperty,
-      spreadSource: this.get(spreadProperty)
+      propertyPath,
+      spreadSource: this.get(propertyPath)
     }
   },
 
-  _addSetUnsupportedProperty (spreadProperty) {
-    const spreadSource = this.get(`${spreadProperty}`)
+  /**
+   * Adding {@code setUnknownProperty} to the spread source object if it does not have it
+   * in order to be able to detect addition of properties in the spread source object.
+   * @param {string} spreadPropertyPath - path to the spread source object (relative to current component)
+   * @private
+   */
+  _addSetUnsupportedProperty (spreadPropertyPath) {
+    const spreadSource = this.get(`${spreadPropertyPath}`)
     spreadSource.setUnknownProperty = (key, value) => {
       spreadSource[key] = value
-      this._defineSpreadProperties(spreadProperty, {
+      this._defineSpreadProperties(spreadPropertyPath, {
         [`${key}`]: value
       })
       this.get('_spreadProperties').add(key)
     }
   },
 
+  /**
+   * observer to detect changes in the spread source reference so that we can update
+   * spread properties
+   * @private
+   */
   _sourceChangeObserverHandler () {
     const {propertyPath, spreadSource} = this._getSpreadSource()
     if (spreadSource === undefined) {
