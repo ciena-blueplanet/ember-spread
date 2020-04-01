@@ -6,7 +6,7 @@
 
 import {makeArray} from '@ember/array'
 import {assert} from '@ember/debug'
-import {defineProperty, observer} from '@ember/object'
+import {defineProperty} from '@ember/object'
 import {readOnly} from '@ember/object/computed'
 import Mixin from '@ember/object/mixin'
 import {isNone, typeOf} from '@ember/utils'
@@ -46,20 +46,6 @@ export default Mixin.create({
     // State
   },
 
-  // == Computed Properties ===================================================
-  _sourceChanged: observer(`${SPREAD_PROPERTY}`, 'spreadOptions.source.object.options',
-    function () {
-      const {propertyPath, spreadSource} = this._getSpreadSource()
-      if (spreadSource === undefined) {
-        this._resetSpreadProperties()
-      } else if (spreadSource.setUnknownProperty === undefined) {
-        this._resetSpreadProperties()
-        this._addSetUnsupportedProperty(propertyPath)
-      }
-      if (spreadSource) {
-        this._defineSpreadProperties(propertyPath, spreadSource)
-      }
-    }),
   // == Functions =============================================================
   /**
    * Create local properties for each property in the spread hash.
@@ -188,6 +174,8 @@ export default Mixin.create({
       this._defineSpreadProperties(propertyPath, spreadSource)
       this._addSetUnsupportedProperty(propertyPath)
     }
+
+    this.addObserver(propertyPath, this, this._sourceChangeObserverHandler)
   },
 
   _getSpreadSource () {
@@ -216,10 +204,25 @@ export default Mixin.create({
     }
   },
 
+  _sourceChangeObserverHandler () {
+    const {propertyPath, spreadSource} = this._getSpreadSource()
+    if (spreadSource === undefined) {
+      this._resetSpreadProperties()
+    } else if (spreadSource.setUnknownProperty === undefined) {
+      this._resetSpreadProperties()
+      this._addSetUnsupportedProperty(propertyPath)
+    }
+    if (spreadSource) {
+      this._defineSpreadProperties(propertyPath, spreadSource)
+    }
+  },
+
   willDestroy () {
     this._super(...arguments)
     this._resetSpreadProperties()
     this.set('_spreadProperties', undefined)
+    const {propertyPath} = this._getSpreadSource()
+    this.removeObserver(propertyPath, this, this._sourceChangeObserverHandler)
   }
 
   // == DOM Events ============================================================
