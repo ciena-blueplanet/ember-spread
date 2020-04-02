@@ -1,3 +1,7 @@
+# 7.0.2 (2020-04-02)
+* Dynamic addition property in default/custom options will automatically be added to the target. 
+
+
 # 7.0.1 (2018-10-12)
 * Update Travis to use latest node
 * Update dependencies
