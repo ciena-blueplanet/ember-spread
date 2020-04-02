@@ -3725,21 +3725,19 @@ return e._dict=null,delete e._dict,e}}),define("ember-spread/index",["exports","
 Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return t.default}})}),define("ember-spread/mixins/spread",["exports","ember-prop-types"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0})
 var n=Object.assign,r=Object.keys,i=["setUnknownProperty","_spreadListeners"]
-e.default=Ember.Mixin.create({propTypes:{options:t.PropTypes.oneOfType([t.PropTypes.EmberObject,t.PropTypes.object]),spreadOptions:t.PropTypes.shape({property:t.PropTypes.string,source:t.PropTypes.shape({object:t.PropTypes.oneOfType([t.PropTypes.EmberObject,t.PropTypes.object]),property:t.PropTypes.string.isRequired})})},_defineSourceListener:function(e,t,n){var r=Ember.get(e,t+"._spreadListeners")
-Ember.isNone(r)?Ember.get(e,t).set("_spreadListeners",[{target:this,targetProperty:n}]):r.push({target:this,targetProperty:n}),Ember.defineProperty(Ember.get(e,t),"setUnknownProperty",void 0,function(n,r){this[n]=r,this._spreadListeners.forEach(function(e){"function"===Ember.typeOf(r)?e.target.set(n,r):Ember.defineProperty(e.target,n,Ember.computed.readOnly(e.targetProperty+"."+n))}),e.get(t).notifyPropertyChange(n)})},_defineSpreadProperties:function(e,t){var a=this,o=arguments.length>2&&void 0!==arguments[2]?arguments[2]:["tagName","elementId"],s=this.concatenatedProperties,l=this.mergedProperties
+e.default=Ember.Mixin.create({propTypes:{options:t.PropTypes.oneOfType([t.PropTypes.EmberObject,t.PropTypes.object]),spreadOptions:t.PropTypes.shape({property:t.PropTypes.string,source:t.PropTypes.shape({object:t.PropTypes.oneOfType([t.PropTypes.EmberObject,t.PropTypes.object]),property:t.PropTypes.string.isRequired})})},_defineSpreadProperties:function(e,t){var a=this,o=arguments.length>2&&void 0!==arguments[2]?arguments[2]:["tagName","elementId"],s=this.concatenatedProperties,l=this.mergedProperties
 r(t).forEach(function(r){if(!i.includes(r)){var c=t[r]
 if(o.includes(r)||"function"===Ember.typeOf(c))a.set(r,c)
-else if(Array.isArray(s)&&-1!==s.indexOf(r)){var u=a[r]
-u?"function"==typeof u.concat?a.set(r,u.concat(c)):a.set(r,Ember.makeArray(u).concat(c)):a.set(r,Ember.makeArray(c))}else if(Array.isArray(l)&&-1!==l.indexOf(r)){var d=a[r]
-"object"===Ember.typeOf(c)&&("object"===Ember.typeOf(d)?a.set(r,n({},d,c)):a.set(r,n({},c)))}else Ember.defineProperty(a,r,Ember.computed.readOnly(e+"."+r))}})},_getSourceContext:function(){return{sourceObject:this.get("spreadOptions.source.object"),sourceProperty:this.get("spreadOptions.source.property")}},_isLocalListener:function(e){return e.target===this},_resetSpreadProperties:function(e){var t=this,n=["tagName","elementId"],i=this.concatenatedProperties||Ember.makeArray(),a=this.mergedProperties||Ember.makeArray()
-Ember.isNone(e)||r(e).forEach(function(e){n.includes(e)||i.includes(e)||a.includes(e)||Ember.defineProperty(t,e,void 0,void 0)})},_redefineSpreadProperties:function(e,t){var n=this,a=["tagName","elementId"],o=this.concatenatedProperties||Ember.makeArray(),s=this.mergedProperties||Ember.makeArray()
-Ember.isNone(t)||r(t).forEach(function(t){i.includes(t)||a.includes(t)||o.includes(t)||s.includes(t)||Ember.defineProperty(n,t,Ember.computed.readOnly(e+"."+t))})},init:function(){this._super.apply(this,arguments)
-var e=this.get("spreadOptions.property")||"options",t=this.get(e)
-if(this._watchSpreadPropertiesUpdate(e),!Ember.isNone(t)){this._defineSpreadProperties(e,t),this.set("_spreadableHash",t)
-var n=this._getSourceContext(),r=n.sourceObject,i=n.sourceProperty
-Ember.isNone(r)||Ember.isNone(i)||this._defineSourceListener(r,i,e)}},_watchSpreadPropertiesUpdate:function(e){var t=this._getSourceContext(),n=t.sourceObject,r=t.sourceProperty
-this.addObserver("spreadOptions.source.object."+r,function(){var t=this.get("spreadOptions.source.object."+r)
-this._spreadableHash!==t&&(this._resetSpreadProperties(this._spreadableHash),this.set("_spreadableHash",t),Ember.isNone(t)||(this._redefineSpreadProperties(e,t),this._defineSourceListener(n,r,e)))})},willDestroy:function(){this._super.apply(this,arguments)
-var e=this._getSourceContext(),t=e.sourceObject,n=e.sourceProperty
-if(!Ember.isNone(t)&&!Ember.isNone(n)){var r=Ember.get(t,n+"._spreadListeners")
-Ember.isArray(r)&&r.splice(r.findIndex(this._isLocalListener),1)}}})})
+else{if(Array.isArray(s)&&-1!==s.indexOf(r)){var u=a[r]
+return u?"function"==typeof u.concat?a.set(r,u.concat(c)):a.set(r,Ember.makeArray(u).concat(c)):a.set(r,Ember.makeArray(c)),void a.notifyPropertyChange(""+r)}if(Array.isArray(l)&&-1!==l.indexOf(r)){var d=a[r]
+return"object"===Ember.typeOf(c)&&("object"===Ember.typeOf(d)?a.set(r,n({},d,c)):a.set(r,n({},c))),void a.notifyPropertyChange(""+r)}Ember.defineProperty(a,r,Ember.computed.readOnly(e+"."+r)),a.notifyPropertyChange(""+r)}}})},_resetSpreadProperties:function(){var e=this,t=["tagName","elementId"],n=this.concatenatedProperties||Ember.makeArray(),r=this.mergedProperties||Ember.makeArray(),i=this.get("_spreadProperties")
+Ember.isNone(i)||(i.forEach(function(i){t.includes(i)||n.includes(i)||r.includes(i)||Ember.defineProperty(e,i,void 0,void 0)}),this.set("_spreadProperties",new Set))},init:function(){this._super.apply(this,arguments)
+var e=this._getSpreadSource(),t=e.propertyPath,n=e.spreadSource
+if(n){var r=new Set(Object.keys(n))
+this.set("_spreadProperties",r),this._addSetUnsupportedProperty(t),this._defineSpreadProperties(t,n)}this.addObserver(t,this,this._sourceChangeObserverHandler)},_getSpreadSource:function(){var e=this.get("spreadOptions.property")||"options"
+this.get("spreadOptions.source.object")&&(e="spreadOptions.source.object."+(this.get("spreadOptions.source.property")||"options"))
+return{propertyPath:e,spreadSource:this.get(e)}},_addSetUnsupportedProperty:function(e){var t=this,n=this.get(""+e)
+n.setUnknownProperty=function(r,i){n[r]=i,t._defineSpreadProperties(e,function(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}({},""+r,i)),t.get("_spreadProperties").add(r)}},_sourceChangeObserverHandler:function(){var e=this._getSpreadSource(),t=e.propertyPath,n=e.spreadSource
+void 0===n?this._resetSpreadProperties():void 0===n.setUnknownProperty&&(this._resetSpreadProperties(),this._addSetUnsupportedProperty(t)),n&&this._defineSpreadProperties(t,n)},willDestroy:function(){this._super.apply(this,arguments),this._resetSpreadProperties(),this.set("_spreadProperties",void 0)
+var e=this._getSpreadSource().propertyPath
+this.removeObserver(e,this,this._sourceChangeObserverHandler)}})})
